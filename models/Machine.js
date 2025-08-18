@@ -1,0 +1,544 @@
+const mongoose = require('mongoose');
+const { MACHINE_STATUS, PALLET_STATUS } = require('../utils/constants');
+
+const palletSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 8
+  },
+  
+  status: {
+    type: String,
+    enum: Object.values(PALLET_STATUS),
+    default: PALLET_STATUS.AVAILABLE,
+    required: true
+  },
+  
+  currentBooking: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Booking',
+    default: null
+  },
+  
+  vehicleNumber: {
+    type: String,
+    trim: true,
+    uppercase: true,
+    default: null
+  },
+  
+  occupiedSince: {
+    type: Date,
+    default: null
+  },
+  
+  lastMaintenance: {
+    type: Date,
+    default: null
+  },
+  
+  maintenanceNotes: {
+    type: String,
+    maxlength: [500, 'Maintenance notes must not exceed 500 characters']
+  }
+}, {
+  _id: false
+});
+
+const machineSchema = new mongoose.Schema({
+  machineNumber: {
+    type: String,
+    required: [true, 'Machine number is required'],
+    unique: true,
+    trim: true,
+    uppercase: true,
+    match: [/^M[0-9]{3}$/, 'Machine number must follow format: M001, M002, etc.']
+  },
+
+  machineName: {
+    type: String,
+    required: [true, 'Machine name is required'],
+    trim: true,
+    maxlength: [100, 'Machine name must not exceed 100 characters']
+  },
+
+  // Machine status and configuration
+  status: {
+    type: String,
+    enum: Object.values(MACHINE_STATUS),
+    default: MACHINE_STATUS.ONLINE,
+    required: true
+  },
+
+  capacity: {
+    total: {
+      type: Number,
+      required: true,
+      default: 8,
+      min: 1,
+      max: 16
+    },
+    available: {
+      type: Number,
+      required: true,
+      default: 8,
+      min: 0
+    },
+    occupied: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    maintenance: {
+      type: Number,
+      default: 0,
+      min: 0
+    }
+  },
+
+  // Individual pallet information
+  pallets: [palletSchema],
+
+  // Machine specifications
+  specifications: {
+    maxVehicleLength: {
+      type: Number,
+      default: 5000, // in mm
+      min: 1000
+    },
+    maxVehicleWidth: {
+      type: Number,
+      default: 2000, // in mm
+      min: 500
+    },
+    maxVehicleHeight: {
+      type: Number,
+      default: 2000, // in mm
+      min: 500
+    },
+    maxVehicleWeight: {
+      type: Number,
+      default: 2000, // in kg
+      min: 100
+    },
+    supportedVehicleTypes: [{
+      type: String,
+      enum: ['two-wheeler', 'four-wheeler'],
+      required: true
+    }]
+  },
+
+  // Location and installation details
+  location: {
+    building: {
+      type: String,
+      trim: true,
+      maxlength: [100, 'Building name must not exceed 100 characters']
+    },
+    floor: {
+      type: String,
+      trim: true,
+      maxlength: [20, 'Floor must not exceed 20 characters']
+    },
+    zone: {
+      type: String,
+      trim: true,
+      maxlength: [50, 'Zone must not exceed 50 characters']
+    },
+    coordinates: {
+      latitude: {
+        type: Number,
+        min: -90,
+        max: 90
+      },
+      longitude: {
+        type: Number,
+        min: -180,
+        max: 180
+      }
+    }
+  },
+
+  // Operating hours
+  operatingHours: {
+    monday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    tuesday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    wednesday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    thursday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    friday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    saturday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    },
+    sunday: {
+      isOpen: { type: Boolean, default: true },
+      openTime: { type: String, default: '00:00' },
+      closeTime: { type: String, default: '23:59' }
+    }
+  },
+
+  // Pricing configuration
+  pricing: {
+    twoWheeler: {
+      baseRate: { type: Number, default: 10 }, // per hour
+      minimumCharge: { type: Number, default: 10 }
+    },
+    fourWheeler: {
+      baseRate: { type: Number, default: 20 }, // per hour
+      minimumCharge: { type: Number, default: 20 }
+    },
+    peakHourMultiplier: {
+      type: Number,
+      default: 1.5,
+      min: 1
+    },
+    peakHours: {
+      start: { type: String, default: '08:00' },
+      end: { type: String, default: '20:00' }
+    }
+  },
+
+  // Maintenance and service records
+  maintenance: {
+    lastServiceDate: {
+      type: Date,
+      default: null
+    },
+    nextServiceDue: {
+      type: Date,
+      default: null
+    },
+    serviceInterval: {
+      type: Number,
+      default: 30, // days
+      min: 1
+    },
+    totalServiceHours: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    serviceHistory: [{
+      date: { type: Date, required: true },
+      type: { 
+        type: String, 
+        enum: ['routine', 'repair', 'emergency', 'upgrade'],
+        required: true 
+      },
+      description: { type: String, required: true },
+      technician: { type: String, required: true },
+      cost: { type: Number, min: 0 },
+      duration: { type: Number, min: 0 }, // in hours
+      partsReplaced: [String],
+      notes: String
+    }]
+  },
+
+  // System integration
+  integration: {
+    controllerIp: {
+      type: String,
+      match: [/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/, 'Invalid IP address format']
+    },
+    controllerPort: {
+      type: Number,
+      min: 1,
+      max: 65535
+    },
+    firmwareVersion: {
+      type: String,
+      trim: true
+    },
+    lastHeartbeat: {
+      type: Date,
+      default: null
+    },
+    connectionStatus: {
+      type: String,
+      enum: ['connected', 'disconnected', 'error'],
+      default: 'disconnected'
+    }
+  },
+
+  // Statistics
+  statistics: {
+    totalBookings: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    totalRevenue: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    averageOccupancyRate: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100
+    },
+    downtimeHours: {
+      type: Number,
+      default: 0,
+      min: 0
+    }
+  },
+
+  // Installation details
+  installationDate: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+
+  warrantyExpiryDate: {
+    type: Date,
+    required: true
+  },
+
+  vendor: {
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    contactPerson: {
+      type: String,
+      trim: true
+    },
+    phoneNumber: {
+      type: String,
+      match: [/^[6-9]\d{9}$/, 'Please provide a valid Indian phone number']
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please provide a valid email address']
+    }
+  },
+
+  // Audit fields
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+
+  updatedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+
+  // Timestamps
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+// Virtual for occupancy rate
+machineSchema.virtual('occupancyRate').get(function() {
+  if (this.capacity.total === 0) return 0;
+  return Math.round((this.capacity.occupied / this.capacity.total) * 100);
+});
+
+// Virtual for available pallets
+machineSchema.virtual('availablePallets').get(function() {
+  return this.pallets.filter(pallet => pallet.status === PALLET_STATUS.AVAILABLE);
+});
+
+// Virtual for occupied pallets
+machineSchema.virtual('occupiedPallets').get(function() {
+  return this.pallets.filter(pallet => pallet.status === PALLET_STATUS.OCCUPIED);
+});
+
+// Virtual for maintenance status
+machineSchema.virtual('needsMaintenance').get(function() {
+  if (!this.maintenance.nextServiceDue) return false;
+  return this.maintenance.nextServiceDue <= new Date();
+});
+
+// Virtual for online status
+machineSchema.virtual('isOnline').get(function() {
+  if (!this.integration.lastHeartbeat) return false;
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+  return this.integration.lastHeartbeat > fiveMinutesAgo;
+});
+
+// Indexes for better query performance
+machineSchema.index({ machineNumber: 1 }, { unique: true });
+machineSchema.index({ status: 1 });
+machineSchema.index({ 'pallets.status': 1 });
+machineSchema.index({ 'pallets.number': 1 });
+machineSchema.index({ 'location.building': 1 });
+machineSchema.index({ 'location.zone': 1 });
+machineSchema.index({ installationDate: -1 });
+
+// Compound indexes
+machineSchema.index({ status: 1, 'capacity.available': -1 });
+machineSchema.index({ 'specifications.supportedVehicleTypes': 1, status: 1 });
+
+// Pre-save middleware
+machineSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  
+  // Initialize pallets if not exists
+  if (this.isNew && this.pallets.length === 0) {
+    for (let i = 1; i <= this.capacity.total; i++) {
+      this.pallets.push({
+        number: i,
+        status: PALLET_STATUS.AVAILABLE
+      });
+    }
+  }
+  
+  // Update capacity counts based on pallet statuses
+  if (this.pallets.length > 0) {
+    this.capacity.available = this.pallets.filter(p => p.status === PALLET_STATUS.AVAILABLE).length;
+    this.capacity.occupied = this.pallets.filter(p => p.status === PALLET_STATUS.OCCUPIED).length;
+    this.capacity.maintenance = this.pallets.filter(p => p.status === PALLET_STATUS.MAINTENANCE).length;
+  }
+  
+  next();
+});
+
+// Instance methods
+machineSchema.methods.occupyPallet = function(palletNumber, bookingId, vehicleNumber) {
+  const pallet = this.pallets.find(p => p.number === palletNumber);
+  if (!pallet) {
+    throw new Error('Pallet not found');
+  }
+  
+  if (pallet.status !== PALLET_STATUS.AVAILABLE) {
+    throw new Error('Pallet is not available');
+  }
+  
+  pallet.status = PALLET_STATUS.OCCUPIED;
+  pallet.currentBooking = bookingId;
+  pallet.vehicleNumber = vehicleNumber;
+  pallet.occupiedSince = new Date();
+  
+  return this.save();
+};
+
+machineSchema.methods.releasePallet = function(palletNumber) {
+  const pallet = this.pallets.find(p => p.number === palletNumber);
+  if (!pallet) {
+    throw new Error('Pallet not found');
+  }
+  
+  pallet.status = PALLET_STATUS.AVAILABLE;
+  pallet.currentBooking = null;
+  pallet.vehicleNumber = null;
+  pallet.occupiedSince = null;
+  
+  return this.save();
+};
+
+machineSchema.methods.setPalletMaintenance = function(palletNumber, maintenanceNotes = '') {
+  const pallet = this.pallets.find(p => p.number === palletNumber);
+  if (!pallet) {
+    throw new Error('Pallet not found');
+  }
+  
+  pallet.status = PALLET_STATUS.MAINTENANCE;
+  pallet.maintenanceNotes = maintenanceNotes;
+  pallet.lastMaintenance = new Date();
+  
+  return this.save();
+};
+
+machineSchema.methods.addServiceRecord = function(serviceData) {
+  this.maintenance.serviceHistory.unshift(serviceData);
+  this.maintenance.lastServiceDate = serviceData.date;
+  
+  // Calculate next service due date
+  const nextServiceDate = new Date(serviceData.date);
+  nextServiceDate.setDate(nextServiceDate.getDate() + this.maintenance.serviceInterval);
+  this.maintenance.nextServiceDue = nextServiceDate;
+  
+  return this.save();
+};
+
+machineSchema.methods.updateStatistics = function(booking) {
+  this.statistics.totalBookings += 1;
+  if (booking.payment && booking.payment.amount) {
+    this.statistics.totalRevenue += booking.payment.amount;
+  }
+  
+  return this.save();
+};
+
+// Static methods
+machineSchema.statics.findAvailable = function(vehicleType = null) {
+  const query = { 
+    status: MACHINE_STATUS.ONLINE,
+    'capacity.available': { $gt: 0 }
+  };
+  
+  if (vehicleType) {
+    query['specifications.supportedVehicleTypes'] = vehicleType;
+  }
+  
+  return this.find(query).sort({ 'capacity.available': -1 });
+};
+
+machineSchema.statics.findByZone = function(zone) {
+  return this.find({ 'location.zone': zone, status: { $ne: MACHINE_STATUS.OFFLINE } });
+};
+
+machineSchema.statics.getMachineUtilization = function(machineNumber, date) {
+  return this.findOne({ machineNumber: machineNumber.toUpperCase() })
+    .populate({
+      path: 'pallets.currentBooking',
+      match: { startTime: { $gte: date, $lt: new Date(date.getTime() + 24 * 60 * 60 * 1000) } }
+    });
+};
+
+machineSchema.statics.getMaintenanceDue = function() {
+  const today = new Date();
+  return this.find({
+    'maintenance.nextServiceDue': { $lte: today },
+    status: { $ne: MACHINE_STATUS.MAINTENANCE }
+  });
+};
+
+// Create and export model
+const Machine = mongoose.model('Machine', machineSchema);
+
+module.exports = Machine;
