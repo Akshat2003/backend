@@ -16,18 +16,42 @@ const palletSchema = new mongoose.Schema({
     required: true
   },
   
-  currentBooking: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Booking',
-    default: null
+  // For vehicle-specific capacity management
+  vehicleCapacity: {
+    type: Number,
+    required: true,
+    default: 1, // Default for four-wheeler machines
+    min: 1,
+    max: 6 // Maximum for two-wheeler machines
   },
   
-  vehicleNumber: {
-    type: String,
-    trim: true,
-    uppercase: true,
-    default: null
+  currentOccupancy: {
+    type: Number,
+    default: 0,
+    min: 0
   },
+  
+  // Array of current bookings/vehicles on this pallet
+  currentBookings: [{
+    booking: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Booking'
+    },
+    vehicleNumber: {
+      type: String,
+      trim: true,
+      uppercase: true
+    },
+    occupiedSince: {
+      type: Date,
+      default: Date.now
+    },
+    position: {
+      type: Number, // Position 1-6 for two-wheelers, always 1 for four-wheelers
+      min: 1,
+      max: 6
+    }
+  }],
   
   occupiedSince: {
     type: Date,
@@ -48,10 +72,17 @@ const palletSchema = new mongoose.Schema({
 });
 
 const machineSchema = new mongoose.Schema({
+  // Site Association - MULTI-SITE SUPPORT
+  siteId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Site',
+    required: [true, 'Site association is required'],
+    index: true
+  },
+
   machineNumber: {
     type: String,
     required: [true, 'Machine number is required'],
-    unique: true,
     trim: true,
     uppercase: true,
     match: [/^M[0-9]{3}$/, 'Machine number must follow format: M001, M002, etc.']
@@ -62,6 +93,13 @@ const machineSchema = new mongoose.Schema({
     required: [true, 'Machine name is required'],
     trim: true,
     maxlength: [100, 'Machine name must not exceed 100 characters']
+  },
+
+  // Machine type determines vehicle capacity per pallet
+  machineType: {
+    type: String,
+    enum: ['two-wheeler', 'four-wheeler'],
+    required: [true, 'Machine type is required']
   },
 
   // Machine status and configuration
@@ -401,7 +439,8 @@ machineSchema.virtual('isOnline').get(function() {
 });
 
 // Indexes for better query performance
-machineSchema.index({ machineNumber: 1 }, { unique: true });
+machineSchema.index({ siteId: 1, machineNumber: 1 }, { unique: true }); // Machine number unique per site
+machineSchema.index({ siteId: 1 });
 machineSchema.index({ status: 1 });
 machineSchema.index({ 'pallets.status': 1 });
 machineSchema.index({ 'pallets.number': 1 });
@@ -419,53 +458,156 @@ machineSchema.pre('save', function(next) {
   
   // Initialize pallets if not exists
   if (this.isNew && this.pallets.length === 0) {
+    const vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+    
     for (let i = 1; i <= this.capacity.total; i++) {
       this.pallets.push({
         number: i,
-        status: PALLET_STATUS.AVAILABLE
+        status: PALLET_STATUS.AVAILABLE,
+        vehicleCapacity: vehicleCapacityPerPallet,
+        currentOccupancy: 0,
+        currentBookings: []
       });
     }
   }
   
-  // Update capacity counts based on pallet statuses
+  // Update pallet vehicle capacity if machine type changed
+  if (this.isModified('machineType')) {
+    const vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+    this.pallets.forEach(pallet => {
+      pallet.vehicleCapacity = vehicleCapacityPerPallet;
+      // If changing to four-wheeler and pallet has multiple vehicles, keep only first
+      if (vehicleCapacityPerPallet === 1 && pallet.currentBookings.length > 1) {
+        pallet.currentBookings = pallet.currentBookings.slice(0, 1);
+        pallet.currentOccupancy = Math.min(pallet.currentOccupancy, 1);
+      }
+    });
+  }
+  
+  // Update capacity counts based on pallet statuses and occupancy
   if (this.pallets.length > 0) {
-    this.capacity.available = this.pallets.filter(p => p.status === PALLET_STATUS.AVAILABLE).length;
-    this.capacity.occupied = this.pallets.filter(p => p.status === PALLET_STATUS.OCCUPIED).length;
+    this.capacity.available = 0;
+    this.capacity.occupied = 0;
     this.capacity.maintenance = this.pallets.filter(p => p.status === PALLET_STATUS.MAINTENANCE).length;
+    
+    this.pallets.forEach(pallet => {
+      if (pallet.status === PALLET_STATUS.AVAILABLE) {
+        this.capacity.available += (pallet.vehicleCapacity - pallet.currentOccupancy);
+      } else if (pallet.status === PALLET_STATUS.OCCUPIED) {
+        this.capacity.occupied += pallet.currentOccupancy;
+      }
+    });
   }
   
   next();
 });
 
 // Instance methods
-machineSchema.methods.occupyPallet = function(palletNumber, bookingId, vehicleNumber) {
+machineSchema.methods.occupyPallet = function(palletNumber, bookingId, vehicleNumber, position = null) {
   const pallet = this.pallets.find(p => p.number === palletNumber);
   if (!pallet) {
     throw new Error('Pallet not found');
   }
   
-  if (pallet.status !== PALLET_STATUS.AVAILABLE) {
-    throw new Error('Pallet is not available');
+  // Check if pallet has available space
+  if (pallet.currentOccupancy >= pallet.vehicleCapacity) {
+    throw new Error('Pallet is at full capacity');
   }
   
-  pallet.status = PALLET_STATUS.OCCUPIED;
-  pallet.currentBooking = bookingId;
-  pallet.vehicleNumber = vehicleNumber;
-  pallet.occupiedSince = new Date();
+  // For two-wheeler machines, find next available position
+  if (this.machineType === 'two-wheeler') {
+    if (!position) {
+      // Find next available position (1-6)
+      const occupiedPositions = pallet.currentBookings.map(b => b.position);
+      for (let i = 1; i <= 6; i++) {
+        if (!occupiedPositions.includes(i)) {
+          position = i;
+          break;
+        }
+      }
+    }
+    
+    // Check if position is already occupied
+    if (pallet.currentBookings.some(b => b.position === position)) {
+      throw new Error(`Position ${position} is already occupied`);
+    }
+  } else {
+    // Four-wheeler machines always use position 1
+    position = 1;
+  }
+  
+  // Add vehicle to pallet
+  pallet.currentBookings.push({
+    booking: bookingId,
+    vehicleNumber: vehicleNumber.toUpperCase(),
+    occupiedSince: new Date(),
+    position: position
+  });
+  
+  pallet.currentOccupancy += 1;
+  
+  // Update pallet status
+  if (pallet.currentOccupancy >= pallet.vehicleCapacity) {
+    pallet.status = PALLET_STATUS.OCCUPIED;
+  }
+  
+  if (pallet.currentOccupancy === 1) {
+    pallet.occupiedSince = new Date();
+  }
   
   return this.save();
 };
 
-machineSchema.methods.releasePallet = function(palletNumber) {
+machineSchema.methods.releasePallet = function(palletNumber, bookingId) {
   const pallet = this.pallets.find(p => p.number === palletNumber);
   if (!pallet) {
     throw new Error('Pallet not found');
   }
   
-  pallet.status = PALLET_STATUS.AVAILABLE;
-  pallet.currentBooking = null;
-  pallet.vehicleNumber = null;
-  pallet.occupiedSince = null;
+  // Find and remove the specific booking
+  const bookingIndex = pallet.currentBookings.findIndex(b => 
+    b.booking.toString() === bookingId.toString()
+  );
+  
+  if (bookingIndex === -1) {
+    throw new Error('Booking not found on this pallet');
+  }
+  
+  pallet.currentBookings.splice(bookingIndex, 1);
+  pallet.currentOccupancy = Math.max(0, pallet.currentOccupancy - 1);
+  
+  // Update pallet status
+  if (pallet.currentOccupancy === 0) {
+    pallet.status = PALLET_STATUS.AVAILABLE;
+    pallet.occupiedSince = null;
+  }
+  
+  return this.save();
+};
+
+machineSchema.methods.releaseVehicle = function(palletNumber, vehicleNumber) {
+  const pallet = this.pallets.find(p => p.number === palletNumber);
+  if (!pallet) {
+    throw new Error('Pallet not found');
+  }
+  
+  // Find and remove the specific vehicle
+  const bookingIndex = pallet.currentBookings.findIndex(b => 
+    b.vehicleNumber === vehicleNumber.toUpperCase()
+  );
+  
+  if (bookingIndex === -1) {
+    throw new Error('Vehicle not found on this pallet');
+  }
+  
+  const removedBooking = pallet.currentBookings.splice(bookingIndex, 1)[0];
+  pallet.currentOccupancy = Math.max(0, pallet.currentOccupancy - 1);
+  
+  // Update pallet status
+  if (pallet.currentOccupancy === 0) {
+    pallet.status = PALLET_STATUS.AVAILABLE;
+    pallet.occupiedSince = null;
+  }
   
   return this.save();
 };
@@ -504,15 +646,48 @@ machineSchema.methods.updateStatistics = function(booking) {
   return this.save();
 };
 
+// Method to find available pallet for specific vehicle type
+machineSchema.methods.findAvailablePallet = function(vehicleType) {
+  // Check if machine supports this vehicle type
+  if (!this.specifications.supportedVehicleTypes.includes(vehicleType)) {
+    return null;
+  }
+  
+  // For vehicle type mismatch with machine type, return null
+  if (this.machineType !== vehicleType) {
+    return null;
+  }
+  
+  // Find pallet with available space
+  for (const pallet of this.pallets) {
+    if (pallet.status !== PALLET_STATUS.MAINTENANCE && 
+        pallet.currentOccupancy < pallet.vehicleCapacity) {
+      return {
+        palletNumber: pallet.number,
+        availableSpaces: pallet.vehicleCapacity - pallet.currentOccupancy,
+        totalCapacity: pallet.vehicleCapacity,
+        currentOccupancy: pallet.currentOccupancy
+      };
+    }
+  }
+  
+  return null;
+};
+
 // Static methods
-machineSchema.statics.findAvailable = function(vehicleType = null) {
+machineSchema.statics.findAvailable = function(vehicleType = null, siteId = null) {
   const query = { 
     status: MACHINE_STATUS.ONLINE,
     'capacity.available': { $gt: 0 }
   };
   
   if (vehicleType) {
+    query.machineType = vehicleType;
     query['specifications.supportedVehicleTypes'] = vehicleType;
+  }
+  
+  if (siteId) {
+    query.siteId = siteId;
   }
   
   return this.find(query).sort({ 'capacity.available': -1 });

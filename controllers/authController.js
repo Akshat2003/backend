@@ -126,12 +126,9 @@ class AuthController {
    */
   async logout(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+      const refreshToken = req.body.refreshToken;
       
-      await authService.logout(req.user.id, refreshToken);
-
-      // Clear refresh token cookie
-      res.clearCookie('refreshToken');
+      await authService.logout(req.user._id, refreshToken);
 
       responseHandler.success(res, null, 'Logout successful');
 
@@ -146,7 +143,7 @@ class AuthController {
    */
   async getProfile(req, res, next) {
     try {
-      const user = await authService.getUserProfile(req.user.id);
+      const user = await authService.getUserProfile(req.user._id);
 
       responseHandler.success(res, { user }, 'Profile retrieved successfully');
 
@@ -162,7 +159,7 @@ class AuthController {
   async updateProfile(req, res, next) {
     try {
       const updates = req.body;
-      const user = await authService.updateProfile(req.user.id, updates);
+      const user = await authService.updateProfile(req.user._id, updates);
 
       responseHandler.success(res, { user }, 'Profile updated successfully');
 
@@ -184,7 +181,7 @@ class AuthController {
         return responseHandler.badRequest(res, 'New passwords do not match');
       }
 
-      await authService.changePassword(req.user.id, currentPassword, newPassword);
+      await authService.changePassword(req.user._id, currentPassword, newPassword);
 
       responseHandler.success(res, null, 'Password changed successfully');
 

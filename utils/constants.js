@@ -34,6 +34,7 @@ const BOOKING_STATUS = {
   ACTIVE: 'active',
   COMPLETED: 'completed',
   CANCELLED: 'cancelled',
+  DELETED: 'deleted',
   EXPIRED: 'expired'
 };
 
@@ -130,21 +131,6 @@ const VALIDATION_RULES = {
   NAME_MAX_LENGTH: 100
 };
 
-// Rate Limiting
-const RATE_LIMITS = {
-  AUTH: {
-    WINDOW_MS: 15 * 60 * 1000, // 15 minutes
-    MAX_ATTEMPTS: 5
-  },
-  API: {
-    WINDOW_MS: 15 * 60 * 1000, // 15 minutes
-    MAX_REQUESTS: 100
-  },
-  PASSWORD_RESET: {
-    WINDOW_MS: 60 * 60 * 1000, // 1 hour
-    MAX_ATTEMPTS: 3
-  }
-};
 
 // File Upload Limits
 const FILE_LIMITS = {
@@ -164,7 +150,6 @@ const PAGINATION = {
 const CACHE_TTL = {
   USER_SESSION: 60 * 60 * 24, // 24 hours
   OTP: 60 * 10, // 10 minutes
-  RATE_LIMIT: 60 * 15, // 15 minutes
   ANALYTICS: 60 * 30 // 30 minutes
 };
 
@@ -195,7 +180,6 @@ const ERROR_CODES = {
   AUTHORIZATION_ERROR: 'AUTHORIZATION_ERROR',
   RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
   DUPLICATE_RESOURCE: 'DUPLICATE_RESOURCE',
-  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
   DATABASE_ERROR: 'DATABASE_ERROR',
   EXTERNAL_SERVICE_ERROR: 'EXTERNAL_SERVICE_ERROR'
@@ -215,7 +199,6 @@ module.exports = {
   SMS_TYPES,
   MESSAGES,
   VALIDATION_RULES,
-  RATE_LIMITS,
   FILE_LIMITS,
   PAGINATION,
   CACHE_TTL,

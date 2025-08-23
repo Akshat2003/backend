@@ -11,10 +11,14 @@ const corsOptions = require('./config/cors');
 
 // Import middleware
 const { globalErrorHandler } = require('./middleware/errorHandler');
-const rateLimiter = require('./middleware/rateLimiter');
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const bookingRoutes = require('./routes/booking');
+const customerRoutes = require('./routes/customer');
+const siteRoutes = require('./routes/site');
+const machineRoutes = require('./routes/machine');
+const analyticsRoutes = require('./routes/analytics');
 
 // Import utilities
 const logger = require('./utils/logger');
@@ -52,8 +56,6 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Rate limiting
-app.use('/api/', rateLimiter.general);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -67,6 +69,11 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/sites', siteRoutes);
+app.use('/api/machines', machineRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Handle 404 routes
 app.use('*', (req, res) => {

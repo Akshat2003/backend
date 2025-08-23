@@ -110,14 +110,6 @@ class ResponseHandler {
     return this.error(res, message, HTTP_STATUS.UNPROCESSABLE_ENTITY, errors, 'VALIDATION_ERROR');
   }
 
-  /**
-   * Send rate limit exceeded response
-   * @param {Object} res - Express response object
-   * @param {string} message - Error message
-   */
-  rateLimitExceeded(res, message = 'Too many requests') {
-    return this.error(res, message, HTTP_STATUS.TOO_MANY_REQUESTS, null, 'RATE_LIMIT_EXCEEDED');
-  }
 
   /**
    * Send paginated response

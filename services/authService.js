@@ -109,10 +109,19 @@ class AuthService {
    */
   async login(operatorId, password, ipAddress = null) {
     try {
-      // Find user by operator ID
+      // Find user by operator ID with site information
       const user = await User.findOne({ 
         operatorId: operatorId.toUpperCase() 
-      }).select('+password +loginAttempts +lockUntil');
+      })
+      .select('+password +loginAttempts +lockUntil')
+      .populate({
+        path: 'assignedSites.site',
+        select: 'siteId siteName location status'
+      })
+      .populate({
+        path: 'primarySite',
+        select: 'siteId siteName location status'
+      });
 
       if (!user) {
         throw new AppError(MESSAGES.INVALID_CREDENTIALS, 401);
@@ -330,11 +339,9 @@ class AuthService {
 
       // Save reset data
       user.passwordResetToken = encryption.sha256Hash(resetToken);
-      user.otp = {
-        code: otp,
-        expiresAt: otpExpires,
-        attempts: 0
-      };
+      user.otp.code = otp;
+      user.otp.expiresAt = otpExpires;
+      user.otp.attempts = 0;
       await user.save();
 
       logger.info('Password reset requested', { 
@@ -377,13 +384,13 @@ class AuthService {
       }
 
       // Check attempts
-      if (user.otp.attempts >= 5) {
+      if ((user.otp.attempts || 0) >= 5) {
         throw new AppError('Too many OTP attempts. Please request a new reset.', 400);
       }
 
       // Verify OTP
       if (user.otp.code !== otp) {
-        user.otp.attempts += 1;
+        user.otp.attempts = (user.otp.attempts || 0) + 1;
         await user.save();
         throw new AppError(MESSAGES.INVALID_OTP, 400);
       }
@@ -501,7 +508,16 @@ class AuthService {
    */
   async getUserProfile(userId) {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(userId)
+        .populate({
+          path: 'assignedSites.site',
+          select: 'siteId siteName location status'
+        })
+        .populate({
+          path: 'primarySite',
+          select: 'siteId siteName location status'
+        });
+        
       if (!user) {
         throw new AppError('User not found', 404);
       }

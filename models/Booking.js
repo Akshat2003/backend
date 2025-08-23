@@ -2,9 +2,16 @@ const mongoose = require('mongoose');
 const { BOOKING_STATUS, VEHICLE_TYPES, PAYMENT_METHODS, PAYMENT_STATUS } = require('../utils/constants');
 
 const bookingSchema = new mongoose.Schema({
+  // Site Association - MULTI-SITE SUPPORT
+  siteId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Site',
+    required: [true, 'Site association is required'],
+    index: true
+  },
+
   bookingNumber: {
     type: String,
-    unique: true,
     trim: true,
     uppercase: true
   },
@@ -127,8 +134,7 @@ const bookingSchema = new mongoose.Schema({
     },
     method: {
       type: String,
-      enum: Object.values(PAYMENT_METHODS),
-      default: null
+      enum: Object.values(PAYMENT_METHODS)
     },
     status: {
       type: String,
@@ -298,7 +304,8 @@ bookingSchema.virtual('amountDue').get(function() {
 });
 
 // Indexes for better query performance
-bookingSchema.index({ bookingNumber: 1 }, { unique: true });
+bookingSchema.index({ siteId: 1, bookingNumber: 1 }, { unique: true }); // Booking number unique per site
+bookingSchema.index({ siteId: 1 }); // Site-based queries
 bookingSchema.index({ customer: 1 });
 bookingSchema.index({ phoneNumber: 1 });
 bookingSchema.index({ vehicleNumber: 1 });
@@ -358,6 +365,14 @@ bookingSchema.methods.complete = function(completedBy, paymentData = {}) {
 bookingSchema.methods.cancel = function(reason = null) {
   this.status = BOOKING_STATUS.CANCELLED;
   if (reason) this.notes = reason;
+  return this.save();
+};
+
+bookingSchema.methods.delete = function(reason = null) {
+  this.status = BOOKING_STATUS.DELETED;
+  if (reason) {
+    this.notes = this.notes ? `${this.notes}\nDeletion reason: ${reason}` : `Deletion reason: ${reason}`;
+  }
   return this.save();
 };
 

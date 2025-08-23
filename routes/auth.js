@@ -1,7 +1,6 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const { authenticateToken, authorizeRoles } = require('../middleware/auth');
-const rateLimiter = require('../middleware/rateLimiter');
 const validation = require('../middleware/validation');
 const { USER_ROLES } = require('../utils/constants');
 
@@ -15,7 +14,6 @@ const router = express.Router();
  * @access  Public
  */
 router.post('/login', 
-  rateLimiter.auth,
   validation.validateLogin,
   authController.login
 );
@@ -27,7 +25,6 @@ router.post('/login',
  */
 if (process.env.NODE_ENV === 'development') {
   router.post('/register',
-    rateLimiter.createAccount,
     validation.validateRegistration,
     authController.register
   );
@@ -35,7 +32,6 @@ if (process.env.NODE_ENV === 'development') {
   router.post('/register',
     authenticateToken,
     authorizeRoles(USER_ROLES.ADMIN),
-    rateLimiter.createAccount,
     validation.validateRegistration,
     authController.register
   );
@@ -47,7 +43,6 @@ if (process.env.NODE_ENV === 'development') {
  * @access  Public
  */
 router.post('/refresh',
-  rateLimiter.auth,
   authController.refreshToken
 );
 
@@ -57,7 +52,6 @@ router.post('/refresh',
  * @access  Public
  */
 router.post('/forgot-password',
-  rateLimiter.passwordReset,
   validation.validatePasswordResetRequest,
   authController.forgotPassword
 );
@@ -68,7 +62,6 @@ router.post('/forgot-password',
  * @access  Public
  */
 router.post('/verify-reset-otp',
-  rateLimiter.passwordReset,
   authController.verifyResetOTP
 );
 
@@ -78,7 +71,6 @@ router.post('/verify-reset-otp',
  * @access  Public
  */
 router.post('/reset-password',
-  rateLimiter.passwordReset,
   validation.validatePasswordReset,
   authController.resetPassword
 );
@@ -141,7 +133,6 @@ router.put('/profile',
  */
 router.post('/change-password',
   authenticateToken,
-  rateLimiter.passwordReset,
   authController.changePassword
 );
 

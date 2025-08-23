@@ -65,6 +65,39 @@ const userSchema = new mongoose.Schema({
     required: true
   },
 
+  // Site Association - MULTI-SITE SUPPORT
+  assignedSites: [{
+    site: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Site',
+      required: true
+    },
+    role: {
+      type: String,
+      enum: ['operator', 'supervisor', 'site-admin'],
+      default: 'operator'
+    },
+    permissions: [{
+      type: String,
+      enum: [
+        'create_booking',
+        'update_booking',
+        'cancel_booking',
+        'view_analytics',
+        'manage_customers',
+        'manage_machines',
+        'view_reports'
+      ]
+    }]
+  }],
+
+  // Primary site (for operators with single site access)
+  primarySite: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Site',
+    default: null
+  },
+
   // Profile Information
   profileImage: {
     type: String,

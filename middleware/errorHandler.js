@@ -221,17 +221,6 @@ const handleValidationError = (errors) => {
   return err;
 };
 
-/**
- * Rate limit error handler
- */
-const handleRateLimitError = (req, res, next) => {
-  const err = new AppError(
-    'Too many requests from this IP, please try again later.',
-    HTTP_STATUS.TOO_MANY_REQUESTS,
-    ERROR_CODES.RATE_LIMIT_EXCEEDED
-  );
-  next(err);
-};
 
 /**
  * Database connection error handler
@@ -294,7 +283,6 @@ module.exports = {
   handleNotFound,
   asyncHandler,
   handleValidationError,
-  handleRateLimitError,
   handleDatabaseError,
   handleCastErrorDB,
   handleDuplicateFieldsDB,

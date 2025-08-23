@@ -45,18 +45,27 @@ const customerSchema = new mongoose.Schema({
       type: String,
       required: true,
       trim: true,
-      uppercase: true,
-      match: [/^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$/, 'Invalid vehicle number format']
+      uppercase: true
     },
     vehicleType: {
       type: String,
       required: true,
       enum: ['two-wheeler', 'four-wheeler']
     },
-    vehicleModel: {
+    make: {
+      type: String,
+      trim: true,
+      maxlength: [50, 'Vehicle make must not exceed 50 characters']
+    },
+    model: {
       type: String,
       trim: true,
       maxlength: [50, 'Vehicle model must not exceed 50 characters']
+    },
+    color: {
+      type: String,
+      trim: true,
+      maxlength: [30, 'Vehicle color must not exceed 30 characters']
     },
     isActive: {
       type: Boolean,
@@ -65,6 +74,29 @@ const customerSchema = new mongoose.Schema({
     addedAt: {
       type: Date,
       default: Date.now
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    deletedAt: {
+      type: Date
+    },
+    deletedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     }
   }],
 
@@ -74,20 +106,41 @@ const customerSchema = new mongoose.Schema({
       type: String,
       sparse: true,
       trim: true,
-      uppercase: true
+      uppercase: true,
+      match: [/^[0-9]{6}$/, 'Membership number must be 6 digits']
+    },
+    pin: {
+      type: String,
+      trim: true,
+      match: [/^[0-9]{4}$/, 'PIN must be 4 digits']
     },
     membershipType: {
       type: String,
-      enum: ['monthly', 'quarterly', 'yearly', 'premium'],
+      enum: ['monthly', 'quarterly', 'yearly', 'premium']
+    },
+    issuedDate: {
+      type: Date,
       default: null
     },
     expiryDate: {
       type: Date,
       default: null
     },
+    validityTerm: {
+      type: Number, // Term in months
+      default: 12
+    },
     isActive: {
       type: Boolean,
       default: false
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    createdAt: {
+      type: Date,
+      default: null
     }
   },
 
@@ -148,8 +201,7 @@ const customerSchema = new mongoose.Schema({
   preferences: {
     preferredPaymentMethod: {
       type: String,
-      enum: ['cash', 'upi', 'card', 'membership', 'wallet'],
-      default: null
+      enum: ['cash', 'upi', 'card', 'membership', 'wallet']
     },
     smsNotifications: {
       type: Boolean,
@@ -172,6 +224,24 @@ const customerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     default: null
+  },
+
+  // Soft delete fields
+  deletedAt: {
+    type: Date,
+    default: null
+  },
+
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+
+  deletionReason: {
+    type: String,
+    trim: true,
+    maxlength: [500, 'Deletion reason must not exceed 500 characters']
   },
 
   // Timestamps
@@ -202,7 +272,16 @@ customerSchema.virtual('activeVehicles').get(function() {
 
 // Virtual for membership status
 customerSchema.virtual('hasMembership').get(function() {
-  return this.membership.isActive && this.membership.expiryDate > new Date();
+  return this.membership.isActive && 
+         this.membership.membershipNumber && 
+         this.membership.pin &&
+         this.membership.expiryDate && 
+         this.membership.expiryDate > new Date();
+});
+
+// Virtual for membership validity
+customerSchema.virtual('isMembershipExpired').get(function() {
+  return this.membership.expiryDate && this.membership.expiryDate <= new Date();
 });
 
 // Indexes for better query performance
@@ -213,6 +292,24 @@ customerSchema.index({ status: 1 });
 customerSchema.index({ createdAt: -1 });
 customerSchema.index({ lastBookingDate: -1 });
 customerSchema.index({ 'membership.membershipNumber': 1 }, { sparse: true });
+
+// Text indexes for search functionality
+customerSchema.index({
+  firstName: 'text',
+  lastName: 'text',
+  phoneNumber: 'text',
+  email: 'text',
+  'vehicles.vehicleNumber': 'text'
+}, {
+  weights: {
+    firstName: 10,
+    lastName: 10,
+    phoneNumber: 8,
+    'vehicles.vehicleNumber': 6,
+    email: 4
+  },
+  name: 'customer_search_index'
+});
 
 // Compound indexes
 customerSchema.index({ firstName: 1, lastName: 1 });
@@ -264,6 +361,73 @@ customerSchema.methods.updateBookingStats = function(amount) {
   return this.save();
 };
 
+// Generate unique membership number
+customerSchema.methods.generateMembershipNumber = function() {
+  let membershipNumber;
+  do {
+    membershipNumber = Math.floor(100000 + Math.random() * 900000).toString();
+  } while (membershipNumber.startsWith('0')); // Ensure 6 digits, no leading zero
+  return membershipNumber;
+};
+
+// Generate unique PIN
+customerSchema.methods.generatePIN = function() {
+  let pin;
+  do {
+    pin = Math.floor(1000 + Math.random() * 9000).toString();
+  } while (pin.startsWith('0')); // Ensure 4 digits, no leading zero
+  return pin;
+};
+
+// Create membership
+customerSchema.methods.createMembership = async function(membershipType, validityTerm, createdBy) {
+  const membershipNumber = this.generateMembershipNumber();
+  const pin = this.generatePIN();
+  
+  // Check if membership number is unique
+  const existingMembership = await this.constructor.findOne({
+    'membership.membershipNumber': membershipNumber,
+    'membership.isActive': true
+  });
+  
+  if (existingMembership) {
+    // Regenerate if duplicate found (very rare)
+    return this.createMembership(membershipType, validityTerm, createdBy);
+  }
+  
+  const now = new Date();
+  const expiryDate = new Date();
+  expiryDate.setMonth(expiryDate.getMonth() + validityTerm);
+  
+  this.membership = {
+    membershipNumber,
+    pin,
+    membershipType,
+    issuedDate: now,
+    expiryDate,
+    validityTerm,
+    isActive: true,
+    createdBy,
+    createdAt: now
+  };
+  
+  return this.save();
+};
+
+// Validate membership credentials
+customerSchema.methods.validateMembership = function(membershipNumber, pin) {
+  return this.membership.isActive &&
+         this.membership.membershipNumber === membershipNumber &&
+         this.membership.pin === pin &&
+         this.membership.expiryDate > new Date();
+};
+
+// Deactivate membership
+customerSchema.methods.deactivateMembership = function() {
+  this.membership.isActive = false;
+  return this.save();
+};
+
 // Static methods
 customerSchema.statics.findByPhone = function(phoneNumber) {
   return this.findOne({ phoneNumber, status: 'active' });
@@ -287,6 +451,17 @@ customerSchema.statics.findByMembership = function(membershipNumber) {
 
 customerSchema.statics.getActiveCustomers = function() {
   return this.find({ status: 'active' }).sort({ createdAt: -1 });
+};
+
+// Validate membership credentials
+customerSchema.statics.validateMembershipCredentials = function(membershipNumber, pin) {
+  return this.findOne({
+    'membership.membershipNumber': membershipNumber,
+    'membership.pin': pin,
+    'membership.isActive': true,
+    'membership.expiryDate': { $gt: new Date() },
+    status: 'active'
+  });
 };
 
 // Create and export model
