@@ -8,6 +8,13 @@ const palletSchema = new mongoose.Schema({
     min: 1,
     max: 8
   },
+
+  // Custom name for puzzle parking pallets
+  customName: {
+    type: String,
+    trim: true,
+    maxlength: [50, 'Pallet name must not exceed 50 characters']
+  },
   
   status: {
     type: String,
@@ -100,6 +107,14 @@ const machineSchema = new mongoose.Schema({
     type: String,
     enum: ['two-wheeler', 'four-wheeler'],
     required: [true, 'Machine type is required']
+  },
+
+  // Parking mechanism type
+  parkingType: {
+    type: String,
+    enum: ['puzzle', 'rotary'],
+    default: 'rotary',
+    required: [true, 'Parking type is required']
   },
 
   // Machine status and configuration
@@ -458,7 +473,15 @@ machineSchema.pre('save', function(next) {
   
   // Initialize pallets if not exists
   if (this.isNew && this.pallets.length === 0) {
-    const vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+    // Calculate vehicle capacity per pallet based on parking type and machine type
+    let vehicleCapacityPerPallet;
+    if (this.parkingType === 'puzzle') {
+      // Puzzle parking: 3 spots for two-wheeler, 1 spot for four-wheeler
+      vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 3 : 1;
+    } else {
+      // Rotary parking: 6 spots for two-wheeler, 1 spot for four-wheeler
+      vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+    }
     
     for (let i = 1; i <= this.capacity.total; i++) {
       this.pallets.push({
@@ -471,15 +494,23 @@ machineSchema.pre('save', function(next) {
     }
   }
   
-  // Update pallet vehicle capacity if machine type changed
-  if (this.isModified('machineType')) {
-    const vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+  // Update pallet vehicle capacity if machine type or parking type changed
+  if (this.isModified('machineType') || this.isModified('parkingType')) {
+    let vehicleCapacityPerPallet;
+    if (this.parkingType === 'puzzle') {
+      // Puzzle parking: 3 spots for two-wheeler, 1 spot for four-wheeler
+      vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 3 : 1;
+    } else {
+      // Rotary parking: 6 spots for two-wheeler, 1 spot for four-wheeler
+      vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
+    }
+    
     this.pallets.forEach(pallet => {
       pallet.vehicleCapacity = vehicleCapacityPerPallet;
-      // If changing to four-wheeler and pallet has multiple vehicles, keep only first
-      if (vehicleCapacityPerPallet === 1 && pallet.currentBookings.length > 1) {
-        pallet.currentBookings = pallet.currentBookings.slice(0, 1);
-        pallet.currentOccupancy = Math.min(pallet.currentOccupancy, 1);
+      // If reducing capacity and pallet has more vehicles than new capacity, keep only allowed vehicles
+      if (pallet.currentBookings.length > vehicleCapacityPerPallet) {
+        pallet.currentBookings = pallet.currentBookings.slice(0, vehicleCapacityPerPallet);
+        pallet.currentOccupancy = Math.min(pallet.currentOccupancy, vehicleCapacityPerPallet);
       }
     });
   }

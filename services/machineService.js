@@ -54,6 +54,26 @@ class MachineService {
         createdBy
       });
 
+      // Handle custom pallets for puzzle parking
+      if (machineData.parkingType === 'puzzle' && machineData.pallets && machineData.pallets.length > 0) {
+        // Clear auto-generated pallets and add custom named pallets
+        machine.pallets = [];
+        
+        // Calculate vehicle capacity per pallet for puzzle parking
+        const vehicleCapacityPerPallet = machine.machineType === 'two-wheeler' ? 3 : 1;
+        
+        machineData.pallets.forEach(palletData => {
+          machine.pallets.push({
+            number: palletData.number,
+            customName: palletData.customName || `Pallet ${palletData.number}`,
+            status: PALLET_STATUS.AVAILABLE,
+            vehicleCapacity: vehicleCapacityPerPallet,
+            currentOccupancy: 0,
+            currentBookings: []
+          });
+        });
+      }
+
       await machine.save();
 
       logger.info('Machine created successfully', {
@@ -595,10 +615,12 @@ class MachineService {
       machineNumber: machine.machineNumber,
       machineName: machine.machineName,
       machineType: machine.machineType,
+      parkingType: machine.parkingType,
       status: machine.status,
       capacity: machine.capacity,
       pallets: machine.pallets ? machine.pallets.map(pallet => ({
         number: pallet.number,
+        customName: pallet.customName,
         status: pallet.status,
         vehicleCapacity: pallet.vehicleCapacity,
         currentOccupancy: pallet.currentOccupancy,
