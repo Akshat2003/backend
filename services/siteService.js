@@ -270,14 +270,14 @@ class SiteService {
         );
       }
 
-      // Check if site has active bookings even with force
+      // Check if site has active bookings
       const activeBookings = await Booking.countDocuments({
         siteId,
         status: 'active'
       });
 
-      if (activeBookings > 0) {
-        throw createError('Cannot delete site with active bookings. Complete or cancel all active bookings first.', 400);
+      if (activeBookings > 0 && !force) {
+        throw createError('Cannot delete site with active bookings. Complete or cancel all active bookings first, or use force=true to override.', 400);
       }
 
       // Check if site has machines
