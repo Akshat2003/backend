@@ -141,6 +141,11 @@ class SiteService {
    */
   async getSiteById(siteId) {
     try {
+      // Validate siteId format
+      if (!siteId || !mongoose.isValidObjectId(siteId)) {
+        throw createError('Invalid site ID format', 400);
+      }
+
       const site = await Site.findById(siteId)
         .populate('createdBy', 'operatorId fullName')
         .populate('updatedBy', 'operatorId fullName');
@@ -180,6 +185,11 @@ class SiteService {
    */
   async updateSite(siteId, updateData, updatedBy) {
     try {
+      // Validate siteId format
+      if (!siteId || !mongoose.isValidObjectId(siteId)) {
+        throw createError('Invalid site ID format', 400);
+      }
+
       const site = await Site.findById(siteId);
 
       if (!site) {
@@ -209,6 +219,11 @@ class SiteService {
    */
   async deactivateSite(siteId, reason, updatedBy) {
     try {
+      // Validate siteId format
+      if (!siteId || !mongoose.isValidObjectId(siteId)) {
+        throw createError('Invalid site ID format', 400);
+      }
+
       const site = await Site.findById(siteId);
 
       if (!site) {
@@ -254,6 +269,11 @@ class SiteService {
    */
   async deleteSitePermanently(siteId, reason, force = false, deletedBy) {
     try {
+      // Validate siteId format
+      if (!siteId || !mongoose.isValidObjectId(siteId)) {
+        throw createError('Invalid site ID format', 400);
+      }
+
       const site = await Site.findById(siteId);
 
       if (!site) {

@@ -221,6 +221,11 @@ class MachineService {
       delete updateData.createdBy;
       delete updateData.createdAt;
 
+      // Handle warrantyExpiryDate - don't update if null or undefined
+      if (updateData.warrantyExpiryDate === null || updateData.warrantyExpiryDate === undefined) {
+        delete updateData.warrantyExpiryDate;
+      }
+
       // Update machine
       Object.assign(machine, updateData);
       machine.updatedBy = updatedBy;
@@ -235,11 +240,11 @@ class MachineService {
       return this.sanitizeMachine(machine);
 
     } catch (error) {
-      logger.error('Update machine failed:', error.message);
+      logger.error('Update machine failed:', error);
       if (error instanceof AppError) {
         throw error;
       }
-      throw createError('Failed to update machine', 500);
+      throw createError(error.message || 'Failed to update machine', error.statusCode || 500);
     }
   }
 
