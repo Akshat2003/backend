@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Machine = require('../models/Machine');
 const Site = require('../models/Site');
 const Booking = require('../models/Booking');
@@ -18,6 +19,11 @@ class MachineService {
    */
   async createMachine(machineData, createdBy) {
     try {
+      // Validate siteId format
+      if (!machineData.siteId || !mongoose.isValidObjectId(machineData.siteId)) {
+        throw createError('Invalid site ID format', 400);
+      }
+
       // Validate site exists
       const site = await Site.findById(machineData.siteId);
       if (!site) {
@@ -166,6 +172,11 @@ class MachineService {
    */
   async getMachineById(machineId) {
     try {
+      // Validate machineId format
+      if (!machineId || !mongoose.isValidObjectId(machineId)) {
+        throw createError('Invalid machine ID format', 400);
+      }
+
       const machine = await Machine.findById(machineId)
         .populate('siteId', 'siteId siteName location')
         .populate('pallets.currentBookings.booking', 'bookingNumber customerName vehicleNumber startTime');
@@ -192,6 +203,11 @@ class MachineService {
    */
   async updateMachine(machineId, updateData, updatedBy) {
     try {
+      // Validate machineId format
+      if (!machineId || !mongoose.isValidObjectId(machineId)) {
+        throw createError('Invalid machine ID format', 400);
+      }
+
       const machine = await Machine.findById(machineId);
 
       if (!machine) {
