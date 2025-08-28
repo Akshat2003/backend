@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Site = require('../models/Site');
 const User = require('../models/User');
 const Machine = require('../models/Machine');
@@ -244,6 +245,113 @@ class SiteService {
 
     } catch (error) {
       logger.error('Site deactivation failed:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Permanently delete site (hard delete)
+   */
+  async deleteSitePermanently(siteId, reason, force = false, deletedBy) {
+    try {
+      const site = await Site.findById(siteId);
+
+      if (!site) {
+        throw createError('Site not found', 404);
+      }
+
+      // Check if site has any bookings (active or historical)
+      const totalBookings = await Booking.countDocuments({ siteId });
+      
+      if (totalBookings > 0 && !force) {
+        throw createError(
+          `Cannot permanently delete site with ${totalBookings} booking records. Use force=true to override, or deactivate instead.`,
+          400
+        );
+      }
+
+      // Check if site has active bookings even with force
+      const activeBookings = await Booking.countDocuments({
+        siteId,
+        status: 'active'
+      });
+
+      if (activeBookings > 0) {
+        throw createError('Cannot delete site with active bookings. Complete or cancel all active bookings first.', 400);
+      }
+
+      // Check if site has machines
+      const machineCount = await Machine.countDocuments({ siteId });
+      
+      if (machineCount > 0 && !force) {
+        throw createError(
+          `Cannot permanently delete site with ${machineCount} machines. Use force=true to override, or deactivate instead.`,
+          400
+        );
+      }
+
+      // Start transaction for data integrity
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        // Delete all machines in this site (if force is true)
+        if (machineCount > 0 && force) {
+          await Machine.deleteMany({ siteId }, { session });
+          logger.warn('Forced deletion of machines', { siteId: site.siteId, machineCount });
+        }
+
+        // Delete all bookings for this site (if force is true)
+        if (totalBookings > 0 && force) {
+          await Booking.deleteMany({ siteId }, { session });
+          logger.warn('Forced deletion of booking records', { siteId: site.siteId, bookingCount: totalBookings });
+        }
+
+        // Remove site assignments from all users
+        await User.updateMany(
+          { 'assignedSites.site': siteId },
+          { 
+            $pull: { assignedSites: { site: siteId } },
+            $unset: { primarySite: 1 }
+          },
+          { session }
+        );
+
+        // Permanently delete the site
+        await Site.findByIdAndDelete(siteId, { session });
+
+        // Commit transaction
+        await session.commitTransaction();
+
+        logger.info('Site permanently deleted', {
+          siteId: site.siteId,
+          siteName: site.siteName,
+          reason,
+          deletedBy,
+          force,
+          machinesDeleted: machineCount,
+          bookingsDeleted: totalBookings
+        });
+
+        return {
+          message: 'Site permanently deleted',
+          siteId: site.siteId,
+          siteName: site.siteName,
+          deletedData: {
+            machines: force ? machineCount : 0,
+            bookings: force ? totalBookings : 0
+          }
+        };
+
+      } catch (error) {
+        await session.abortTransaction();
+        throw error;
+      } finally {
+        session.endSession();
+      }
+
+    } catch (error) {
+      logger.error('Permanent site deletion failed:', error);
       throw error;
     }
   }

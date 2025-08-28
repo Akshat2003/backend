@@ -140,6 +140,25 @@ class SiteController {
   }
 
   /**
+   * Permanently delete site (hard delete)
+   * @route DELETE /api/sites/:id/permanent
+   */
+  async deleteSitePermanently(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { reason, force = false } = req.body;
+      const deletedBy = req.user._id;
+
+      const result = await siteService.deleteSitePermanently(id, reason, force, deletedBy);
+
+      responseHandler.success(res, result, 'Site permanently deleted successfully');
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Get site statistics
    * @route GET /api/sites/:id/statistics
    */

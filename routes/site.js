@@ -85,6 +85,19 @@ router.delete('/:id',
 );
 
 /**
+ * @route DELETE /api/sites/:id/permanent
+ * @desc Permanently delete site (hard delete)
+ * @access Private (Admin only)
+ * @param {string} id - Site ID
+ * @body {string} reason - Deletion reason (optional)
+ * @body {boolean} force - Force delete even with bookings (optional, default: false)
+ */
+router.delete('/:id/permanent', 
+  authorizeRoles('admin'),
+  siteController.deleteSitePermanently
+);
+
+/**
  * @route GET /api/sites/:id/statistics
  * @desc Get site statistics
  * @access Private
