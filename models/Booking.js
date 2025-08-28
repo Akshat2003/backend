@@ -67,6 +67,13 @@ const bookingSchema = new mongoose.Schema({
     max: [8, 'Pallet number must be between 1 and 8']
   },
 
+  // Custom pallet name for puzzle parking machines
+  palletName: {
+    type: String,
+    trim: true,
+    maxlength: [50, 'Pallet name must not exceed 50 characters']
+  },
+
   // Booking Status and Timing
   status: {
     type: String,
