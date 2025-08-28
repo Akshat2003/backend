@@ -140,7 +140,7 @@ class MachineController {
         }
       }
 
-      const machine = await machineService.updateMachine(id, updateData, updatedBy);
+      const machine = await machineService.updateMachine(id, updateData, updatedBy, req.user.role);
 
       responseHandler.success(res, { machine }, 'Machine updated successfully');
 
