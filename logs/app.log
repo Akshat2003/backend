@@ -2013,3 +2013,18 @@
 {"timestamp":"2025-08-29T06:12:15.746Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-08-29T06:13:41.433Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-08-29T06:19:04.458Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:05:25.176Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:13:17.600Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:26:20.937Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:29:37.424Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:32:10.243Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:32:20.443Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:32:43.144Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:32:54.991Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:33:37.786Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:33:47.985Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:34:55.775Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
+{"timestamp":"2025-08-29T08:35:20.698Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:35:30.960Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T08:47:34.466Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T08:47:45.294Z","level":"INFO","message":"MongoDB reconnected"}
