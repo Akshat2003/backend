@@ -2003,3 +2003,7 @@
 {"timestamp":"2025-08-28T16:43:39.898Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
 {"timestamp":"2025-08-28T16:44:18.582Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
 {"timestamp":"2025-08-28T16:44:29.936Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
+{"timestamp":"2025-08-28T22:49:43.863Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-28T22:49:53.968Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T02:56:40.569Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-29T02:56:50.681Z","level":"INFO","message":"MongoDB reconnected"}

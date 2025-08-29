@@ -235,10 +235,33 @@ class MachineService {
       }
 
       // Prevent updating certain fields
-      delete updateData.machineNumber;
       delete updateData.pallets;
       delete updateData.createdBy;
       delete updateData.createdAt;
+      
+      // Only allow machineNumber updates for admin users
+      if (userRole !== 'admin' && updateData.machineNumber) {
+        delete updateData.machineNumber;
+      } else if (userRole === 'admin' && updateData.machineNumber) {
+        // Validate machine number format and uniqueness
+        const machineNumberPattern = /^M[0-9]{3}$/;
+        if (!machineNumberPattern.test(updateData.machineNumber.toUpperCase())) {
+          throw createError('Machine number must follow format: M001, M002, etc.', 400);
+        }
+        
+        // Check if machine number already exists at the same site (excluding current machine)
+        const existingMachine = await Machine.findOne({ 
+          siteId: machine.siteId, 
+          machineNumber: updateData.machineNumber.toUpperCase(),
+          _id: { $ne: machineId }
+        });
+        if (existingMachine) {
+          throw createError('Machine number already exists at this site', 409);
+        }
+        
+        // Convert to uppercase
+        updateData.machineNumber = updateData.machineNumber.toUpperCase();
+      }
       
       // Only allow siteId updates for admin users
       if (userRole !== 'admin' && updateData.siteId) {
