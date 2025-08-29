@@ -3,7 +3,7 @@ const responseHandler = require('../utils/responseHandler');
 const { HTTP_STATUS, ERROR_CODES } = require('../utils/constants');
 
 /**
- * Custom application error class
+ * Custom application error class  
  */
 class AppError extends Error {
   constructor(message, statusCode, errorCode = null, isOperational = true) {
