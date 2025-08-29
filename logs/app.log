@@ -2028,3 +2028,7 @@
 {"timestamp":"2025-08-29T08:35:30.960Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-08-29T08:47:34.466Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-08-29T08:47:45.294Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T14:41:53.479Z","level":"INFO","message":"Server running in production mode on port 5001"}
+{"timestamp":"2025-08-29T14:41:54.838Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-08-29T14:42:44.658Z","level":"INFO","message":"Success Response: 200 - Auth service is healthy"}
+{"timestamp":"2025-08-29T14:42:44.669Z","level":"INFO","message":"::1 - - [29/Aug/2025:14:42:44 +0000] \"GET /api/auth/health HTTP/1.1\" 200 175 \"-\" \"curl/8.10.1\""}
