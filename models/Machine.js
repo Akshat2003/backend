@@ -6,7 +6,7 @@ const palletSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1,
-    max: 8
+    max: 50
   },
 
   // Custom name for puzzle parking pallets
@@ -131,7 +131,7 @@ const machineSchema = new mongoose.Schema({
       required: true,
       default: 8,
       min: 1,
-      max: 16
+      max: 50
     },
     available: {
       type: Number,

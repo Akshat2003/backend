@@ -2007,3 +2007,5 @@
 {"timestamp":"2025-08-28T22:49:53.968Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-08-29T02:56:40.569Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-08-29T02:56:50.681Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-29T03:13:09.024Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
+{"timestamp":"2025-08-29T03:13:36.210Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
