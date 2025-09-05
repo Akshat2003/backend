@@ -256,12 +256,12 @@ const machineSchema = new mongoose.Schema({
   // Pricing configuration
   pricing: {
     twoWheeler: {
-      baseRate: { type: Number, default: 10 }, // per hour
-      minimumCharge: { type: Number, default: 10 }
+      baseRate: { type: Number, default: 20 }, // ₹20 for 4 hours
+      minimumCharge: { type: Number, default: 20 }
     },
     fourWheeler: {
-      baseRate: { type: Number, default: 20 }, // per hour
-      minimumCharge: { type: Number, default: 20 }
+      baseRate: { type: Number, default: 40 }, // ₹40 for 4 hours
+      minimumCharge: { type: Number, default: 40 }
     },
     peakHourMultiplier: {
       type: Number,
