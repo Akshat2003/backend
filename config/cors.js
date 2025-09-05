@@ -6,6 +6,7 @@ const corsOptions = {
       'http://localhost:3000',
       'http://localhost:3001',
       'http://localhost:5173', // Vite dev server
+      'http://localhost:5174', // Additional Vite dev server port
       'https://frontend-ruddy-zeta-89.vercel.app', // Deployed frontend URL
       'https://parking-operator.vercel.app', // Add your production domain
     ];
