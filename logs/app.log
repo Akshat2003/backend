@@ -2032,3 +2032,15 @@
 {"timestamp":"2025-08-29T14:41:54.838Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
 {"timestamp":"2025-08-29T14:42:44.658Z","level":"INFO","message":"Success Response: 200 - Auth service is healthy"}
 {"timestamp":"2025-08-29T14:42:44.669Z","level":"INFO","message":"::1 - - [29/Aug/2025:14:42:44 +0000] \"GET /api/auth/health HTTP/1.1\" 200 175 \"-\" \"curl/8.10.1\""}
+{"timestamp":"2025-08-29T20:19:58.526Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-30T06:22:52.673Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-30T19:35:58.967Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-08-31T10:01:11.166Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-08-31T18:03:03.713Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-09-01T07:26:50.005Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-01T07:34:03.907Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-09-01T07:41:47.461Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-01T21:49:59.537Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-09-01T21:50:10.904Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-02T05:29:34.095Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-09-02T05:29:45.792Z","level":"INFO","message":"MongoDB reconnected"}
