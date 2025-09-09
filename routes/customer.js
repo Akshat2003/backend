@@ -201,20 +201,5 @@ router.delete('/:id/membership',
   customerController.deactivateCustomerMembership
 );
 
-/**
- * @route GET /api/customers/active-members
- * @desc Get customers with active memberships
- * @access Private (Admin only)
- * @query {number} page - Page number (default: 1)
- * @query {number} limit - Items per page (default: 20, max: 100)
- * @query {string} sortBy - Sort field (default: createdAt)
- * @query {string} sortOrder - Sort order (asc/desc, default: desc)
- * @query {string} search - Search term for name, phone, or membership number
- * @query {string} membershipType - Filter by membership type
- */
-router.get('/active-members', 
-  authorizeRoles('admin', 'operator'),
-  customerController.getActiveMembers
-);
 
 module.exports = router;

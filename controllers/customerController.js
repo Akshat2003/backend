@@ -341,38 +341,6 @@ class CustomerController {
     }
   }
 
-  /**
-   * Get customers with active memberships
-   * @route GET /api/customers/active-members
-   */
-  async getActiveMembers(req, res, next) {
-    try {
-      const {
-        page = 1,
-        limit = 20,
-        sortBy = 'createdAt',
-        sortOrder = 'desc',
-        search,
-        membershipType
-      } = req.query;
-
-      const filters = {
-        page: parseInt(page),
-        limit: Math.min(parseInt(limit), 100),
-        sortBy,
-        sortOrder,
-        search,
-        membershipType
-      };
-
-      const result = await customerService.getActiveMembers(filters);
-
-      responseHandler.success(res, result, 'Active members retrieved successfully');
-
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 module.exports = new CustomerController();
