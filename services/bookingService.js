@@ -789,9 +789,9 @@ class BookingService {
         throw new AppError('Invalid machine number format. Must be M001, M002, etc.', 400);
       }
 
-      // Basic validation for pallet number (allow any positive number)
-      if (palletNumber < 1) {
-        throw new AppError('Invalid pallet number. Must be a positive number', 400);
+      // Basic validation for pallet identifier (allow numbers and text)
+      if (!palletNumber || palletNumber.toString().trim() === '') {
+        throw new AppError('Invalid pallet identifier. Pallet number/name is required', 400);
       }
 
       // Allow any machine/pallet combination - no capacity restrictions

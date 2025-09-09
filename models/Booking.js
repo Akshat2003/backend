@@ -61,10 +61,16 @@ const bookingSchema = new mongoose.Schema({
   },
 
   palletNumber: {
-    type: Number,
-    required: [true, 'Pallet number is required'],
-    min: [1, 'Pallet number must be between 1 and 8'],
-    max: [8, 'Pallet number must be between 1 and 8']
+    type: mongoose.Schema.Types.Mixed, // Allow both numbers and strings
+    required: [true, 'Pallet number/name is required'],
+    validate: {
+      validator: function(value) {
+        if (!value) return false;
+        const str = value.toString().trim();
+        return str.length > 0 && str.length <= 50;
+      },
+      message: 'Pallet number/name must be between 1 and 50 characters'
+    }
   },
 
   // Custom pallet name for puzzle parking machines

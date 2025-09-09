@@ -2057,3 +2057,4 @@
 {"timestamp":"2025-09-09T06:17:15.118Z","level":"INFO","message":"MongoDB Connected: localhost"}
 {"timestamp":"2025-09-09T08:05:09.065Z","level":"INFO","message":"Server running in production mode on port 5001"}
 {"timestamp":"2025-09-09T08:05:11.409Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-09T09:35:23.948Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
