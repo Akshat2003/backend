@@ -583,7 +583,7 @@ class CustomerService {
   }
 
   /**
-   * Create membership for customer with vehicle type coverage
+   * Create membership for customer (works across all vehicles)
    * @param {String} customerId - Customer ID
    * @param {String} membershipType - Type of membership
    * @param {Number} validityTerm - Validity term in months
@@ -602,16 +602,8 @@ class CustomerService {
         throw new AppError('Cannot create membership for inactive customer', 400);
       }
 
-      // Ensure customer has at least one vehicle to attach membership to
-      if (!customer.vehicles || customer.vehicles.length === 0) {
-        throw new AppError('Customer must have at least one vehicle to create membership', 400);
-      }
-
-      // Use the first active vehicle to store the membership
-      const targetVehicle = customer.vehicles.find(v => v.isActive) || customer.vehicles[0];
-      
       // Create customer membership using the model method
-      await customer.createVehicleMembership(targetVehicle.vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes);
+      await customer.createMembership(membershipType, validityTerm, createdBy, vehicleTypes);
 
       logger.info('Customer membership created successfully', {
         customerId: customer._id,
@@ -634,51 +626,52 @@ class CustomerService {
 
 
   /**
-   * Validate vehicle membership credentials
+   * Validate customer membership credentials
    * @param {String} membershipNumber - Membership number
    * @param {String} pin - Membership PIN
-   * @param {String} vehicleNumber - Optional vehicle number for validation
-   * @returns {Promise<Object|null>} - Customer and vehicle with valid membership or null
+   * @param {String} vehicleNumber - Optional vehicle number (not used anymore)
+   * @param {String} bookingVehicleType - Vehicle type for this booking
+   * @returns {Promise<Object|null>} - Customer with valid membership or null
    */
   async validateVehicleMembershipCredentials(membershipNumber, pin, vehicleNumber = null, bookingVehicleType = null) {
     try {
-      const customer = await Customer.validateVehicleMembershipCredentials(membershipNumber, pin);
+      const customer = await Customer.validateMembershipCredentials(membershipNumber, pin);
       
       if (customer) {
-        // Find the vehicle with this membership
-        const vehicle = customer.vehicles.find(v => 
-          v.membership &&
-          v.membership.membershipNumber === membershipNumber &&
-          v.membership.isActive &&
-          // Validate vehicle type coverage only (no vehicle number check)
-          (!bookingVehicleType || 
-           (v.membership.vehicleTypes && v.membership.vehicleTypes.includes(bookingVehicleType)))
-        );
+        // Check if membership covers the booking vehicle type
+        const membershipCoversVehicleType = !bookingVehicleType || 
+          (customer.membership.vehicleTypes && customer.membership.vehicleTypes.includes(bookingVehicleType));
 
-        if (vehicle) {
-          logger.info('Vehicle membership validated successfully', {
+        if (membershipCoversVehicleType) {
+          logger.info('Customer membership validated successfully', {
             customerId: customer._id,
-            vehicleNumber: vehicle.vehicleNumber,
-            membershipNumber
+            membershipNumber,
+            bookingVehicleType
           });
 
           return {
             customer: this.sanitizeCustomer(customer),
-            vehicle: vehicle
+            vehicle: null // No longer needed since membership is customer-level
           };
+        } else {
+          logger.warn('Membership does not cover vehicle type', {
+            membershipNumber,
+            bookingVehicleType,
+            coverageTypes: customer.membership.vehicleTypes
+          });
         }
       }
       
-      logger.warn('Invalid vehicle membership credentials', {
+      logger.warn('Invalid customer membership credentials', {
         membershipNumber,
         pin: '****', // Don't log the actual PIN
-        vehicleNumber
+        bookingVehicleType
       });
 
       return null;
 
     } catch (error) {
-      logger.error('Validate vehicle membership credentials failed:', error.message);
+      logger.error('Validate customer membership credentials failed:', error.message);
       throw new AppError('Failed to validate membership credentials', 500);
     }
   }
@@ -695,22 +688,16 @@ class CustomerService {
         throw new AppError('Customer not found', 404);
       }
 
-      // Find the first vehicle with active membership
-      const vehicleWithMembership = customer.vehicles.find(v => 
-        v.membership && v.membership.isActive
-      );
-
-      if (!vehicleWithMembership) {
-        throw new AppError('Customer does not have any active memberships', 400);
+      if (!customer.membership || !customer.membership.isActive) {
+        throw new AppError('Customer does not have an active membership', 400);
       }
 
       // Deactivate the membership using the model method
-      await customer.deactivateVehicleMembership(vehicleWithMembership.vehicleNumber);
+      await customer.deactivateMembership();
 
       logger.info('Customer membership deactivated successfully', {
         customerId: customer._id,
-        vehicleNumber: vehicleWithMembership.vehicleNumber,
-        membershipNumber: vehicleWithMembership.membership.membershipNumber
+        membershipNumber: customer.membership.membershipNumber
       });
 
       return this.sanitizeCustomer(customer);
@@ -773,11 +760,6 @@ class CustomerService {
   sanitizeCustomer(customer) {
     const customerObj = customer.toObject ? customer.toObject() : customer;
     
-    // Find the first active membership from vehicles for backward compatibility
-    const vehicleWithMembership = customerObj.vehicles?.find(v => 
-      v.isActive && v.membership?.isActive && v.membership?.membershipNumber
-    );
-    
     return {
       _id: customerObj._id,
       firstName: customerObj.firstName,
@@ -786,8 +768,11 @@ class CustomerService {
       phoneNumber: customerObj.phoneNumber,
       email: customerObj.email,
       vehicles: customerObj.vehicles ? customerObj.vehicles.filter(v => v.isActive) : [],
-      membership: vehicleWithMembership?.membership || null,
-      hasMembership: !!vehicleWithMembership,
+      membership: customerObj.membership || null,
+      hasMembership: !!(customerObj.membership && 
+                      customerObj.membership.isActive && 
+                      customerObj.membership.membershipNumber && 
+                      customerObj.membership.expiryDate > new Date()),
       status: customerObj.status,
       createdAt: customerObj.createdAt,
       updatedAt: customerObj.updatedAt

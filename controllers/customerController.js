@@ -278,8 +278,7 @@ class CustomerController {
           _id: result.customer._id,
           fullName: result.customer.fullName,
           phoneNumber: result.customer.phoneNumber,
-          vehicle: result.vehicle,
-          membership: result.vehicle.membership
+          membership: result.customer.membership
         }
       }, 'Membership validated successfully');
 
