@@ -2044,3 +2044,14 @@
 {"timestamp":"2025-09-01T21:50:10.904Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-09-02T05:29:34.095Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-09-02T05:29:45.792Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-08T06:10:56.740Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-09-08T06:12:44.974Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-08T06:12:45.052Z","level":"ERROR","message":"Database connection failed:","data":"querySrv ENOTFOUND _mongodb._tcp.cluster0.mongodb.net"}
+{"timestamp":"2025-09-08T07:05:55.853Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-08T07:06:00.856Z","level":"ERROR","message":"Database connection failed:","data":"connect ECONNREFUSED ::1:27017"}
+{"timestamp":"2025-09-09T06:10:08.580Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-09T06:10:13.578Z","level":"ERROR","message":"Database connection failed:","data":"connect ECONNREFUSED ::1:27017"}
+{"timestamp":"2025-09-09T06:11:23.388Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-09T06:11:28.390Z","level":"ERROR","message":"Database connection failed:","data":"connect ECONNREFUSED ::1:27017"}
+{"timestamp":"2025-09-09T06:17:15.112Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-09T06:17:15.118Z","level":"INFO","message":"MongoDB Connected: localhost"}

@@ -583,14 +583,15 @@ class CustomerService {
   }
 
   /**
-   * Create membership for customer
+   * Create membership for customer vehicle
    * @param {String} customerId - Customer ID
+   * @param {String} vehicleNumber - Vehicle number
    * @param {String} membershipType - Type of membership
    * @param {Number} validityTerm - Validity term in months
    * @param {String} createdBy - User ID who created the membership
-   * @returns {Promise<Object>} - Updated customer with membership
+   * @returns {Promise<Object>} - Updated customer with vehicle membership
    */
-  async createMembership(customerId, membershipType, validityTerm, createdBy) {
+  async createVehicleMembership(customerId, vehicleNumber, membershipType, validityTerm, createdBy) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
@@ -601,17 +602,15 @@ class CustomerService {
         throw new AppError('Cannot create membership for inactive customer', 400);
       }
 
-      // Check if customer already has active membership
-      if (customer.hasMembership) {
-        throw new AppError('Customer already has an active membership', 400);
-      }
+      // Create vehicle membership using the model method
+      await customer.createVehicleMembership(vehicleNumber, membershipType, validityTerm, createdBy);
 
-      // Create membership using the model method
-      await customer.createMembership(membershipType, validityTerm, createdBy);
+      const vehicle = customer.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
 
-      logger.info('Membership created successfully', {
+      logger.info('Vehicle membership created successfully', {
         customerId: customer._id,
-        membershipNumber: customer.membership.membershipNumber,
+        vehicleNumber: vehicle.vehicleNumber,
+        membershipNumber: vehicle.membership.membershipNumber,
         membershipType,
         validityTerm,
         createdBy
@@ -620,76 +619,142 @@ class CustomerService {
       return this.sanitizeCustomer(customer);
 
     } catch (error) {
-      logger.error('Create membership failed:', error.message);
+      logger.error('Create vehicle membership failed:', error.message);
       if (error instanceof AppError) {
         throw error;
       }
-      throw new AppError('Failed to create membership', 500);
+      throw new AppError(error.message || 'Failed to create vehicle membership', 500);
     }
   }
 
   /**
-   * Validate membership credentials
+   * Validate vehicle membership credentials
    * @param {String} membershipNumber - Membership number
    * @param {String} pin - Membership PIN
-   * @returns {Promise<Object|null>} - Customer with valid membership or null
+   * @param {String} vehicleNumber - Optional vehicle number for validation
+   * @returns {Promise<Object|null>} - Customer and vehicle with valid membership or null
    */
-  async validateMembershipCredentials(membershipNumber, pin) {
+  async validateVehicleMembershipCredentials(membershipNumber, pin, vehicleNumber = null) {
     try {
-      const customer = await Customer.validateMembershipCredentials(membershipNumber, pin);
+      const customer = await Customer.validateVehicleMembershipCredentials(membershipNumber, pin);
       
       if (customer) {
-        logger.info('Membership validated successfully', {
-          customerId: customer._id,
-          membershipNumber
-        });
-      } else {
-        logger.warn('Invalid membership credentials', {
-          membershipNumber,
-          pin: '****' // Don't log the actual PIN
-        });
-      }
+        // Find the vehicle with this membership
+        const vehicle = customer.vehicles.find(v => 
+          v.membership &&
+          v.membership.membershipNumber === membershipNumber &&
+          v.membership.isActive &&
+          (!vehicleNumber || v.vehicleNumber === vehicleNumber.toUpperCase())
+        );
 
-      return customer;
+        if (vehicle) {
+          logger.info('Vehicle membership validated successfully', {
+            customerId: customer._id,
+            vehicleNumber: vehicle.vehicleNumber,
+            membershipNumber
+          });
+
+          return {
+            customer: this.sanitizeCustomer(customer),
+            vehicle: vehicle
+          };
+        }
+      }
+      
+      logger.warn('Invalid vehicle membership credentials', {
+        membershipNumber,
+        pin: '****', // Don't log the actual PIN
+        vehicleNumber
+      });
+
+      return null;
 
     } catch (error) {
-      logger.error('Validate membership credentials failed:', error.message);
+      logger.error('Validate vehicle membership credentials failed:', error.message);
       throw new AppError('Failed to validate membership credentials', 500);
     }
   }
 
   /**
-   * Deactivate membership
+   * Deactivate vehicle membership
    * @param {String} customerId - Customer ID
+   * @param {String} vehicleNumber - Vehicle number
    * @returns {Promise<Object>} - Updated customer
    */
-  async deactivateMembership(customerId) {
+  async deactivateVehicleMembership(customerId, vehicleNumber) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
         throw new AppError('Customer not found', 404);
       }
 
-      if (!customer.membership.isActive) {
-        throw new AppError('Customer does not have an active membership', 400);
+      const vehicle = customer.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
+      if (!vehicle) {
+        throw new AppError('Vehicle not found', 404);
       }
 
-      // Deactivate membership using the model method
-      await customer.deactivateMembership();
+      if (!vehicle.membership || !vehicle.membership.isActive) {
+        throw new AppError('Vehicle does not have an active membership', 400);
+      }
 
-      logger.info('Membership deactivated successfully', {
+      // Deactivate vehicle membership using the model method
+      await customer.deactivateVehicleMembership(vehicleNumber);
+
+      logger.info('Vehicle membership deactivated successfully', {
         customerId: customer._id,
-        membershipNumber: customer.membership.membershipNumber
+        vehicleNumber: vehicle.vehicleNumber,
+        membershipNumber: vehicle.membership.membershipNumber
       });
 
       return this.sanitizeCustomer(customer);
 
     } catch (error) {
-      logger.error('Deactivate membership failed:', error.message);
+      logger.error('Deactivate vehicle membership failed:', error.message);
       if (error instanceof AppError) {
         throw error;
       }
-      throw new AppError('Failed to deactivate membership', 500);
+      throw new AppError(error.message || 'Failed to deactivate membership', 500);
+    }
+  }
+
+  /**
+   * Get all memberships for a customer
+   * @param {String} customerId - Customer ID
+   * @returns {Promise<Array>} - Array of vehicles with memberships
+   */
+  async getCustomerMemberships(customerId) {
+    try {
+      const customer = await Customer.findById(customerId);
+      if (!customer) {
+        throw new AppError('Customer not found', 404);
+      }
+
+      // Filter vehicles that have memberships
+      const vehiclesWithMemberships = customer.vehicles.filter(v => 
+        v.membership && v.membership.membershipNumber
+      ).map(v => ({
+        vehicleNumber: v.vehicleNumber,
+        vehicleType: v.vehicleType,
+        make: v.make,
+        model: v.model,
+        membership: {
+          membershipNumber: v.membership.membershipNumber,
+          membershipType: v.membership.membershipType,
+          issuedDate: v.membership.issuedDate,
+          expiryDate: v.membership.expiryDate,
+          isActive: v.membership.isActive,
+          isExpired: v.membership.expiryDate && v.membership.expiryDate <= new Date()
+        }
+      }));
+
+      return vehiclesWithMemberships;
+
+    } catch (error) {
+      logger.error('Get customer memberships failed:', error.message);
+      if (error instanceof AppError) {
+        throw error;
+      }
+      throw new AppError('Failed to get customer memberships', 500);
     }
   }
 

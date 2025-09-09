@@ -229,18 +229,24 @@ class CustomerController {
   }
 
   /**
-   * Create membership for customer
-   * @route POST /api/customers/:id/membership
+   * Create membership for customer vehicle
+   * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
    */
-  async createMembership(req, res, next) {
+  async createVehicleMembership(req, res, next) {
     try {
-      const { id } = req.params;
+      const { id, vehicleNumber } = req.params;
       const { membershipType, validityTerm = 12 } = req.body;
       const createdBy = req.user._id;
 
-      const customer = await customerService.createMembership(id, membershipType, validityTerm, createdBy);
+      const customer = await customerService.createVehicleMembership(
+        id, 
+        vehicleNumber, 
+        membershipType, 
+        validityTerm, 
+        createdBy
+      );
 
-      responseHandler.created(res, { customer }, 'Membership created successfully');
+      responseHandler.created(res, { customer }, 'Vehicle membership created successfully');
 
     } catch (error) {
       next(error);
@@ -248,25 +254,30 @@ class CustomerController {
   }
 
   /**
-   * Validate membership credentials
+   * Validate vehicle membership credentials
    * @route POST /api/customers/validate-membership
    */
   async validateMembership(req, res, next) {
     try {
-      const { membershipNumber, pin } = req.body;
+      const { membershipNumber, pin, vehicleNumber } = req.body;
 
-      const customer = await customerService.validateMembershipCredentials(membershipNumber, pin);
+      const result = await customerService.validateVehicleMembershipCredentials(
+        membershipNumber, 
+        pin,
+        vehicleNumber
+      );
 
-      if (!customer) {
+      if (!result) {
         return responseHandler.badRequest(res, 'Invalid membership number or PIN');
       }
 
       responseHandler.success(res, { 
         customer: {
-          _id: customer._id,
-          fullName: customer.fullName,
-          phoneNumber: customer.phoneNumber,
-          membership: customer.membership
+          _id: result.customer._id,
+          fullName: result.customer.fullName,
+          phoneNumber: result.customer.phoneNumber,
+          vehicle: result.vehicle,
+          membership: result.vehicle.membership
         }
       }, 'Membership validated successfully');
 
@@ -276,16 +287,33 @@ class CustomerController {
   }
 
   /**
-   * Deactivate membership
-   * @route DELETE /api/customers/:id/membership
+   * Deactivate vehicle membership
+   * @route DELETE /api/customers/:id/vehicles/:vehicleNumber/membership
    */
-  async deactivateMembership(req, res, next) {
+  async deactivateVehicleMembership(req, res, next) {
+    try {
+      const { id, vehicleNumber } = req.params;
+
+      const customer = await customerService.deactivateVehicleMembership(id, vehicleNumber);
+
+      responseHandler.success(res, { customer }, 'Vehicle membership deactivated successfully');
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Get all memberships for a customer
+   * @route GET /api/customers/:id/memberships
+   */
+  async getCustomerMemberships(req, res, next) {
     try {
       const { id } = req.params;
 
-      const customer = await customerService.deactivateMembership(id);
+      const memberships = await customerService.getCustomerMemberships(id);
 
-      responseHandler.success(res, { customer }, 'Membership deactivated successfully');
+      responseHandler.success(res, { memberships }, 'Customer memberships retrieved successfully');
 
     } catch (error) {
       next(error);

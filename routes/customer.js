@@ -156,10 +156,11 @@ router.delete('/:id/vehicles/:vehicleId',
 
 /**
  * @route POST /api/customers/validate-membership
- * @desc Validate membership credentials
+ * @desc Validate vehicle membership credentials
  * @access Private
  * @body {string} membershipNumber - 6-digit membership number
  * @body {string} pin - 4-digit PIN
+ * @body {string} vehicleNumber - Vehicle number (optional)
  */
 router.post('/validate-membership', 
   validation.validateMembershipCredentials,
@@ -167,28 +168,38 @@ router.post('/validate-membership',
 );
 
 /**
- * @route POST /api/customers/:id/membership
- * @desc Create membership for customer
- * @access Private (Admin only)
+ * @route GET /api/customers/:id/memberships
+ * @desc Get all memberships for a customer
+ * @access Private
  * @param {string} id - Customer ID
+ */
+router.get('/:id/memberships', customerController.getCustomerMemberships);
+
+/**
+ * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
+ * @desc Create membership for customer vehicle
+ * @access Private (Operators and above)
+ * @param {string} id - Customer ID
+ * @param {string} vehicleNumber - Vehicle number
  * @body {string} membershipType - Type of membership (monthly/quarterly/yearly/premium)
  * @body {number} validityTerm - Validity term in months (default: 12)
  */
-router.post('/:id/membership', 
-  authorizeRoles('admin'),
+router.post('/:id/vehicles/:vehicleNumber/membership', 
+  authorizeRoles('operator', 'supervisor', 'admin'),
   validation.validateMembershipCreation,
-  customerController.createMembership
+  customerController.createVehicleMembership
 );
 
 /**
- * @route DELETE /api/customers/:id/membership
- * @desc Deactivate customer membership
- * @access Private (Admin only)
+ * @route DELETE /api/customers/:id/vehicles/:vehicleNumber/membership
+ * @desc Deactivate vehicle membership
+ * @access Private (Operators and above)
  * @param {string} id - Customer ID
+ * @param {string} vehicleNumber - Vehicle number
  */
-router.delete('/:id/membership', 
-  authorizeRoles('admin'),
-  customerController.deactivateMembership
+router.delete('/:id/vehicles/:vehicleNumber/membership', 
+  authorizeRoles('operator', 'supervisor', 'admin'),
+  customerController.deactivateVehicleMembership
 );
 
 module.exports = router;

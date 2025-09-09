@@ -67,6 +67,49 @@ const customerSchema = new mongoose.Schema({
       trim: true,
       maxlength: [30, 'Vehicle color must not exceed 30 characters']
     },
+    // Vehicle-specific membership
+    membership: {
+      membershipNumber: {
+        type: String,
+        sparse: true,
+        trim: true,
+        uppercase: true,
+        match: [/^[0-9]{6}$/, 'Membership number must be 6 digits']
+      },
+      pin: {
+        type: String,
+        trim: true,
+        match: [/^[0-9]{4}$/, 'PIN must be 4 digits']
+      },
+      membershipType: {
+        type: String,
+        enum: ['monthly', 'quarterly', 'yearly', 'premium']
+      },
+      issuedDate: {
+        type: Date,
+        default: null
+      },
+      expiryDate: {
+        type: Date,
+        default: null
+      },
+      validityTerm: {
+        type: Number, // Term in months
+        default: 12
+      },
+      isActive: {
+        type: Boolean,
+        default: false
+      },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      createdAt: {
+        type: Date,
+        default: null
+      }
+    },
     isActive: {
       type: Boolean,
       default: true
@@ -100,8 +143,9 @@ const customerSchema = new mongoose.Schema({
     }
   }],
 
-  // Membership information
-  membership: {
+  // Legacy membership information (kept for migration purposes)
+  // Will be deprecated after migration to vehicle-based memberships
+  legacyMembership: {
     membershipNumber: {
       type: String,
       sparse: true,
@@ -270,18 +314,27 @@ customerSchema.virtual('activeVehicles').get(function() {
   return this.vehicles.filter(vehicle => vehicle.isActive);
 });
 
-// Virtual for membership status
+// Virtual for membership status (checks if any vehicle has active membership)
 customerSchema.virtual('hasMembership').get(function() {
-  return this.membership.isActive && 
-         this.membership.membershipNumber && 
-         this.membership.pin &&
-         this.membership.expiryDate && 
-         this.membership.expiryDate > new Date();
+  return this.vehicles.some(vehicle => 
+    vehicle.membership &&
+    vehicle.membership.isActive && 
+    vehicle.membership.membershipNumber && 
+    vehicle.membership.pin &&
+    vehicle.membership.expiryDate && 
+    vehicle.membership.expiryDate > new Date()
+  );
 });
 
-// Virtual for membership validity
-customerSchema.virtual('isMembershipExpired').get(function() {
-  return this.membership.expiryDate && this.membership.expiryDate <= new Date();
+// Virtual for vehicles with active memberships
+customerSchema.virtual('vehiclesWithMembership').get(function() {
+  return this.vehicles.filter(vehicle => 
+    vehicle.membership &&
+    vehicle.membership.isActive && 
+    vehicle.membership.membershipNumber && 
+    vehicle.membership.expiryDate && 
+    vehicle.membership.expiryDate > new Date()
+  );
 });
 
 // Indexes for better query performance
@@ -379,27 +432,37 @@ customerSchema.methods.generatePIN = function() {
   return pin;
 };
 
-// Create membership
-customerSchema.methods.createMembership = async function(membershipType, validityTerm, createdBy) {
+// Create membership for a specific vehicle
+customerSchema.methods.createVehicleMembership = async function(vehicleNumber, membershipType, validityTerm, createdBy) {
+  const vehicle = this.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
+  
+  if (!vehicle) {
+    throw new Error('Vehicle not found');
+  }
+  
+  if (vehicle.membership && vehicle.membership.isActive) {
+    throw new Error('Vehicle already has an active membership');
+  }
+  
   const membershipNumber = this.generateMembershipNumber();
   const pin = this.generatePIN();
   
-  // Check if membership number is unique
+  // Check if membership number is unique across all vehicles
   const existingMembership = await this.constructor.findOne({
-    'membership.membershipNumber': membershipNumber,
-    'membership.isActive': true
+    'vehicles.membership.membershipNumber': membershipNumber,
+    'vehicles.membership.isActive': true
   });
   
   if (existingMembership) {
     // Regenerate if duplicate found (very rare)
-    return this.createMembership(membershipType, validityTerm, createdBy);
+    return this.createVehicleMembership(vehicleNumber, membershipType, validityTerm, createdBy);
   }
   
   const now = new Date();
   const expiryDate = new Date();
   expiryDate.setMonth(expiryDate.getMonth() + validityTerm);
   
-  this.membership = {
+  vehicle.membership = {
     membershipNumber,
     pin,
     membershipType,
@@ -414,17 +477,29 @@ customerSchema.methods.createMembership = async function(membershipType, validit
   return this.save();
 };
 
-// Validate membership credentials
-customerSchema.methods.validateMembership = function(membershipNumber, pin) {
-  return this.membership.isActive &&
-         this.membership.membershipNumber === membershipNumber &&
-         this.membership.pin === pin &&
-         this.membership.expiryDate > new Date();
+// Validate vehicle membership credentials
+customerSchema.methods.validateVehicleMembership = function(vehicleNumber, membershipNumber, pin) {
+  const vehicle = this.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
+  
+  if (!vehicle || !vehicle.membership) {
+    return false;
+  }
+  
+  return vehicle.membership.isActive &&
+         vehicle.membership.membershipNumber === membershipNumber &&
+         vehicle.membership.pin === pin &&
+         vehicle.membership.expiryDate > new Date();
 };
 
-// Deactivate membership
-customerSchema.methods.deactivateMembership = function() {
-  this.membership.isActive = false;
+// Deactivate vehicle membership
+customerSchema.methods.deactivateVehicleMembership = function(vehicleNumber) {
+  const vehicle = this.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
+  
+  if (!vehicle || !vehicle.membership) {
+    throw new Error('Vehicle or membership not found');
+  }
+  
+  vehicle.membership.isActive = false;
   return this.save();
 };
 
@@ -453,13 +528,22 @@ customerSchema.statics.getActiveCustomers = function() {
   return this.find({ status: 'active' }).sort({ createdAt: -1 });
 };
 
-// Validate membership credentials
-customerSchema.statics.validateMembershipCredentials = function(membershipNumber, pin) {
+// Validate vehicle membership credentials
+customerSchema.statics.validateVehicleMembershipCredentials = function(membershipNumber, pin) {
   return this.findOne({
-    'membership.membershipNumber': membershipNumber,
-    'membership.pin': pin,
-    'membership.isActive': true,
-    'membership.expiryDate': { $gt: new Date() },
+    'vehicles.membership.membershipNumber': membershipNumber,
+    'vehicles.membership.pin': pin,
+    'vehicles.membership.isActive': true,
+    'vehicles.membership.expiryDate': { $gt: new Date() },
+    status: 'active'
+  });
+};
+
+// Find customer by vehicle membership
+customerSchema.statics.findByVehicleMembership = function(membershipNumber) {
+  return this.findOne({
+    'vehicles.membership.membershipNumber': membershipNumber.toUpperCase(),
+    'vehicles.membership.isActive': true,
     status: 'active'
   });
 };
