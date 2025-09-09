@@ -1,5 +1,6 @@
 const Customer = require('../models/Customer');
 const Booking = require('../models/Booking');
+const MembershipPayment = require('../models/MembershipPayment');
 const logger = require('../utils/logger');
 const { AppError } = require('../middleware/errorHandler');
 
@@ -591,7 +592,7 @@ class CustomerService {
    * @param {Array} vehicleTypes - Array of vehicle types covered
    * @returns {Promise<Object>} - Updated customer with membership
    */
-  async createCustomerMembership(customerId, membershipType, validityTerm, createdBy, vehicleTypes) {
+  async createCustomerMembership(customerId, membershipType, validityTerm, createdBy, vehicleTypes, paymentDetails = {}) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
@@ -605,7 +606,41 @@ class CustomerService {
       // Create customer membership using the model method
       await customer.createMembership(membershipType, validityTerm, createdBy, vehicleTypes);
 
-      logger.info('Customer membership created successfully', {
+      // Calculate membership amount based on type if not provided
+      let amount = paymentDetails.amount;
+      if (!amount) {
+        const membershipPrices = {
+          monthly: 500,
+          quarterly: 1200,
+          yearly: 4000,
+          premium: 6000
+        };
+        amount = membershipPrices[membershipType] || 500;
+      }
+
+      // Create MembershipPayment record
+      const membershipPayment = new MembershipPayment({
+        customerId: customer._id,
+        customerName: customer.fullName,
+        customerPhone: customer.phoneNumber,
+        membershipNumber: customer.membership.membershipNumber,
+        membershipType: membershipType,
+        amount: amount,
+        paymentMethod: paymentDetails.method || 'cash',
+        transactionId: paymentDetails.transactionId,
+        paymentReference: paymentDetails.reference,
+        startDate: customer.membership.issuedDate,
+        expiryDate: customer.membership.expiryDate,
+        validityTerm: validityTerm,
+        vehicleTypes: vehicleTypes || [],
+        status: 'completed',
+        notes: paymentDetails.notes,
+        createdBy: createdBy
+      });
+
+      await membershipPayment.save();
+
+      logger.info('Customer membership and payment record created successfully', {
         customerId: customer._id,
         membershipType,
         vehicleTypes,

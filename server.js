@@ -74,6 +74,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/sites', siteRoutes);
 app.use('/api/machines', machineRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/membership-payments', require('./routes/membershipPayment'));
 
 // Handle 404 routes
 app.use('*', (req, res) => {
