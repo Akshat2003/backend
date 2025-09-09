@@ -753,6 +753,30 @@ class CustomerService {
   }
 
   /**
+   * Search customer by phone number
+   * @param {String} phoneNumber - Phone number to search
+   * @returns {Promise<Object|null>} - Found customer or null
+   */
+  async searchCustomerByPhone(phoneNumber) {
+    try {
+      const customer = await Customer.findOne({ 
+        phoneNumber: phoneNumber.trim(), 
+        status: 'active' 
+      });
+
+      if (customer) {
+        return this.sanitizeCustomer(customer);
+      }
+      
+      return null;
+
+    } catch (error) {
+      logger.error('Search customer by phone failed:', error.message);
+      throw error;
+    }
+  }
+
+  /**
    * Sanitize customer data for response
    * @param {Object} customer - Customer object
    * @returns {Object} - Sanitized customer

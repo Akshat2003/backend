@@ -19,6 +19,7 @@ const customerRoutes = require('./routes/customer');
 const siteRoutes = require('./routes/site');
 const machineRoutes = require('./routes/machine');
 const analyticsRoutes = require('./routes/analytics');
+const publicRoutes = require('./routes/public');
 
 // Import utilities
 const logger = require('./utils/logger');
@@ -72,6 +73,7 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
+app.use('/api/public', publicRoutes); // Public routes (no auth required)
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/customers', customerRoutes);
