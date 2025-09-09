@@ -7,7 +7,7 @@ require('dotenv').config();
 
 // Import configurations
 const connectDB = require('./config/database');
-const corsOptions = require('./config/cors');
+const { createCorsMiddleware, handleCorsError } = require('./middleware/cors');
 
 // Import middleware
 const { globalErrorHandler } = require('./middleware/errorHandler');
@@ -35,8 +35,12 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// CORS configuration
-app.use(cors(corsOptions));
+// Enhanced CORS configuration
+const corsMiddleware = createCorsMiddleware();
+app.use(corsMiddleware);
+
+// Handle preflight requests explicitly
+app.options('*', corsMiddleware);
 
 // Compression middleware
 app.use(compression());
@@ -83,6 +87,9 @@ app.use('*', (req, res) => {
     error: 'Not Found'
   });
 });
+
+// CORS error handler (must be before global error handler)
+app.use(handleCorsError);
 
 // Global error handler (must be last)
 app.use(globalErrorHandler);
