@@ -265,10 +265,23 @@ customerSchema.methods.generatePIN = function() {
   return pin;
 };
 
-// Create membership for customer (works across ALL vehicles)
+// Create or update membership for customer (works across ALL vehicles)
 customerSchema.methods.createMembership = async function(membershipType, validityTerm, createdBy, vehicleTypes = ['two-wheeler', 'four-wheeler']) {
+  // If customer has an active membership, check if we're adding a new vehicle type
   if (this.membership && this.membership.isActive) {
-    throw new Error('Customer already has an active membership');
+    const existingTypes = this.membership.vehicleTypes || [];
+    const newTypes = vehicleTypes.filter(type => !existingTypes.includes(type));
+    
+    if (newTypes.length === 0) {
+      // All requested vehicle types are already covered
+      throw new Error(`Customer already has an active membership covering ${vehicleTypes.join(' and ')}`);
+    }
+    
+    // Add new vehicle types to existing membership
+    this.membership.vehicleTypes = [...new Set([...existingTypes, ...vehicleTypes])];
+    // Optionally extend expiry date based on new purchase
+    // For now, we'll keep the same expiry date
+    return this.save();
   }
   
   const membershipNumber = this.generateMembershipNumber();
