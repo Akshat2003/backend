@@ -147,50 +147,6 @@ const customerSchema = new mongoose.Schema({
     }
   }],
 
-  // Legacy membership information (kept for migration purposes)
-  // Will be deprecated after migration to vehicle-based memberships
-  legacyMembership: {
-    membershipNumber: {
-      type: String,
-      sparse: true,
-      trim: true,
-      uppercase: true,
-      match: [/^[0-9]{6}$/, 'Membership number must be 6 digits']
-    },
-    pin: {
-      type: String,
-      trim: true,
-      match: [/^[0-9]{4}$/, 'PIN must be 4 digits']
-    },
-    membershipType: {
-      type: String,
-      enum: ['monthly', 'quarterly', 'yearly', 'premium']
-    },
-    issuedDate: {
-      type: Date,
-      default: null
-    },
-    expiryDate: {
-      type: Date,
-      default: null
-    },
-    validityTerm: {
-      type: Number, // Term in months
-      default: 12
-    },
-    isActive: {
-      type: Boolean,
-      default: false
-    },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    createdAt: {
-      type: Date,
-      default: null
-    }
-  },
 
   // Address information
   address: {
@@ -348,7 +304,7 @@ customerSchema.index({ 'vehicles.vehicleNumber': 1 });
 customerSchema.index({ status: 1 });
 customerSchema.index({ createdAt: -1 });
 customerSchema.index({ lastBookingDate: -1 });
-customerSchema.index({ 'membership.membershipNumber': 1 }, { sparse: true });
+customerSchema.index({ 'vehicles.membership.membershipNumber': 1 }, { sparse: true });
 
 // Text indexes for search functionality
 customerSchema.index({
@@ -547,13 +503,6 @@ customerSchema.statics.findByVehicle = function(vehicleNumber) {
   });
 };
 
-customerSchema.statics.findByMembership = function(membershipNumber) {
-  return this.findOne({
-    'membership.membershipNumber': membershipNumber.toUpperCase(),
-    'membership.isActive': true,
-    status: 'active'
-  });
-};
 
 customerSchema.statics.getActiveCustomers = function() {
   return this.find({ status: 'active' }).sort({ createdAt: -1 });

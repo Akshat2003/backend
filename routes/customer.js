@@ -191,30 +191,14 @@ router.post('/:id/membership',
 );
 
 /**
- * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
- * @desc Create membership for customer vehicle (legacy support)
+ * @route DELETE /api/customers/:id/membership
+ * @desc Deactivate customer membership
  * @access Private (Operators and above)
  * @param {string} id - Customer ID
- * @param {string} vehicleNumber - Vehicle number
- * @body {string} membershipType - Type of membership (monthly/quarterly/yearly/premium)
- * @body {number} validityTerm - Validity term in months (default: 12)
  */
-router.post('/:id/vehicles/:vehicleNumber/membership', 
+router.delete('/:id/membership', 
   authorizeRoles('operator', 'supervisor', 'admin'),
-  validation.validateMembershipCreation,
-  customerController.createVehicleMembership
-);
-
-/**
- * @route DELETE /api/customers/:id/vehicles/:vehicleNumber/membership
- * @desc Deactivate vehicle membership
- * @access Private (Operators and above)
- * @param {string} id - Customer ID
- * @param {string} vehicleNumber - Vehicle number
- */
-router.delete('/:id/vehicles/:vehicleNumber/membership', 
-  authorizeRoles('operator', 'supervisor', 'admin'),
-  customerController.deactivateVehicleMembership
+  customerController.deactivateCustomerMembership
 );
 
 module.exports = router;

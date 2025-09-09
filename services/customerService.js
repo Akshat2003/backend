@@ -632,50 +632,6 @@ class CustomerService {
     }
   }
 
-  /**
-   * Create membership for customer vehicle (legacy support)
-   * @param {String} customerId - Customer ID
-   * @param {String} vehicleNumber - Vehicle number
-   * @param {String} membershipType - Type of membership
-   * @param {Number} validityTerm - Validity term in months
-   * @param {String} createdBy - User ID who created the membership
-   * @returns {Promise<Object>} - Updated customer with vehicle membership
-   */
-  async createVehicleMembership(customerId, vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes = null) {
-    try {
-      const customer = await Customer.findById(customerId);
-      if (!customer) {
-        throw new AppError('Customer not found', 404);
-      }
-
-      if (customer.status !== 'active') {
-        throw new AppError('Cannot create membership for inactive customer', 400);
-      }
-
-      // Create vehicle membership using the model method
-      await customer.createVehicleMembership(vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes);
-
-      const vehicle = customer.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
-
-      logger.info('Vehicle membership created successfully', {
-        customerId: customer._id,
-        vehicleNumber: vehicle.vehicleNumber,
-        membershipNumber: vehicle.membership.membershipNumber,
-        membershipType,
-        validityTerm,
-        createdBy
-      });
-
-      return this.sanitizeCustomer(customer);
-
-    } catch (error) {
-      logger.error('Create vehicle membership failed:', error.message);
-      if (error instanceof AppError) {
-        throw error;
-      }
-      throw new AppError(error.message || 'Failed to create vehicle membership', 500);
-    }
-  }
 
   /**
    * Validate vehicle membership credentials
@@ -728,40 +684,39 @@ class CustomerService {
   }
 
   /**
-   * Deactivate vehicle membership
+   * Deactivate customer membership
    * @param {String} customerId - Customer ID
-   * @param {String} vehicleNumber - Vehicle number
    * @returns {Promise<Object>} - Updated customer
    */
-  async deactivateVehicleMembership(customerId, vehicleNumber) {
+  async deactivateCustomerMembership(customerId) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
         throw new AppError('Customer not found', 404);
       }
 
-      const vehicle = customer.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
-      if (!vehicle) {
-        throw new AppError('Vehicle not found', 404);
+      // Find the first vehicle with active membership
+      const vehicleWithMembership = customer.vehicles.find(v => 
+        v.membership && v.membership.isActive
+      );
+
+      if (!vehicleWithMembership) {
+        throw new AppError('Customer does not have any active memberships', 400);
       }
 
-      if (!vehicle.membership || !vehicle.membership.isActive) {
-        throw new AppError('Vehicle does not have an active membership', 400);
-      }
+      // Deactivate the membership using the model method
+      await customer.deactivateVehicleMembership(vehicleWithMembership.vehicleNumber);
 
-      // Deactivate vehicle membership using the model method
-      await customer.deactivateVehicleMembership(vehicleNumber);
-
-      logger.info('Vehicle membership deactivated successfully', {
+      logger.info('Customer membership deactivated successfully', {
         customerId: customer._id,
-        vehicleNumber: vehicle.vehicleNumber,
-        membershipNumber: vehicle.membership.membershipNumber
+        vehicleNumber: vehicleWithMembership.vehicleNumber,
+        membershipNumber: vehicleWithMembership.membership.membershipNumber
       });
 
       return this.sanitizeCustomer(customer);
 
     } catch (error) {
-      logger.error('Deactivate vehicle membership failed:', error.message);
+      logger.error('Deactivate customer membership failed:', error.message);
       if (error instanceof AppError) {
         throw error;
       }
@@ -818,6 +773,11 @@ class CustomerService {
   sanitizeCustomer(customer) {
     const customerObj = customer.toObject ? customer.toObject() : customer;
     
+    // Find the first active membership from vehicles for backward compatibility
+    const vehicleWithMembership = customerObj.vehicles?.find(v => 
+      v.isActive && v.membership?.isActive && v.membership?.membershipNumber
+    );
+    
     return {
       _id: customerObj._id,
       firstName: customerObj.firstName,
@@ -826,8 +786,8 @@ class CustomerService {
       phoneNumber: customerObj.phoneNumber,
       email: customerObj.email,
       vehicles: customerObj.vehicles ? customerObj.vehicles.filter(v => v.isActive) : [],
-      membership: customerObj.membership || null,
-      hasMembership: customerObj.hasMembership,
+      membership: vehicleWithMembership?.membership || null,
+      hasMembership: !!vehicleWithMembership,
       status: customerObj.status,
       createdAt: customerObj.createdAt,
       updatedAt: customerObj.updatedAt

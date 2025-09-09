@@ -253,31 +253,6 @@ class CustomerController {
     }
   }
 
-  /**
-   * Create membership for customer vehicle (legacy support)
-   * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
-   */
-  async createVehicleMembership(req, res, next) {
-    try {
-      const { id, vehicleNumber } = req.params;
-      const { membershipType, validityTerm = 12, vehicleTypes } = req.body;
-      const createdBy = req.user._id;
-
-      const customer = await customerService.createVehicleMembership(
-        id, 
-        vehicleNumber, 
-        membershipType, 
-        validityTerm, 
-        createdBy,
-        vehicleTypes
-      );
-
-      responseHandler.created(res, { customer }, 'Vehicle membership created successfully');
-
-    } catch (error) {
-      next(error);
-    }
-  }
 
   /**
    * Validate vehicle membership credentials
@@ -314,16 +289,16 @@ class CustomerController {
   }
 
   /**
-   * Deactivate vehicle membership
-   * @route DELETE /api/customers/:id/vehicles/:vehicleNumber/membership
+   * Deactivate customer membership
+   * @route DELETE /api/customers/:id/membership
    */
-  async deactivateVehicleMembership(req, res, next) {
+  async deactivateCustomerMembership(req, res, next) {
     try {
-      const { id, vehicleNumber } = req.params;
+      const { id } = req.params;
 
-      const customer = await customerService.deactivateVehicleMembership(id, vehicleNumber);
+      const customer = await customerService.deactivateCustomerMembership(id);
 
-      responseHandler.success(res, { customer }, 'Vehicle membership deactivated successfully');
+      responseHandler.success(res, { customer }, 'Customer membership deactivated successfully');
 
     } catch (error) {
       next(error);
