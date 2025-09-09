@@ -519,90 +519,6 @@ const validateMembershipCredentials = [
   handleValidationErrors
 ];
 
-/**
- * Public membership purchase validation
- */
-const validatePublicMembershipPurchase = [
-  body('firstName')
-    .trim()
-    .notEmpty()
-    .withMessage('First name is required')
-    .isLength({ min: 2, max: 50 })
-    .withMessage('First name must be between 2 and 50 characters')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage('First name must contain only letters and spaces'),
-
-  body('lastName')
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage('Last name must not exceed 50 characters')
-    .matches(/^[a-zA-Z\s]*$/)
-    .withMessage('Last name must contain only letters and spaces'),
-
-  body('phoneNumber')
-    .notEmpty()
-    .withMessage('Phone number is required')
-    .custom((value) => {
-      const cleanPhoneNumber = value.replace(/\s|-/g, '');
-      if (!/^\d{10}$/.test(cleanPhoneNumber)) {
-        throw new Error('Phone number must be exactly 10 digits');
-      }
-      return true;
-    }),
-
-  body('email')
-    .optional()
-    .isEmail()
-    .withMessage('Invalid email format')
-    .normalizeEmail(),
-
-  body('vehicleNumber')
-    .notEmpty()
-    .withMessage('Vehicle number is required')
-    .trim()
-    .isLength({ min: 4, max: 15 })
-    .withMessage('Vehicle number must be between 4 and 15 characters')
-    .matches(/^[A-Z0-9]+$/)
-    .withMessage('Vehicle number must contain only uppercase letters and numbers'),
-
-  body('vehicleType')
-    .notEmpty()
-    .withMessage('Vehicle type is required')
-    .isIn(['two-wheeler', 'four-wheeler'])
-    .withMessage('Vehicle type must be either two-wheeler or four-wheeler'),
-
-  body('membershipType')
-    .optional()
-    .isIn(['monthly', 'quarterly', 'yearly', 'premium'])
-    .withMessage('Invalid membership type'),
-
-  body('validityTerm')
-    .optional()
-    .isInt({ min: 1, max: 60 })
-    .withMessage('Validity term must be between 1 and 60 months'),
-
-  body('make')
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage('Make must not exceed 50 characters'),
-
-  body('model')
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage('Model must not exceed 50 characters'),
-
-  body('color')
-    .optional()
-    .trim()
-    .isLength({ max: 30 })
-    .withMessage('Color must not exceed 30 characters'),
-
-  handleValidationErrors
-];
-
 module.exports = {
   validateLogin,
   validateRegistration,
@@ -617,7 +533,6 @@ module.exports = {
   validateVehicleUpdate,
   validateMembershipCreation,
   validateMembershipCredentials,
-  validatePublicMembershipPurchase,
   sanitizeInput,
   handleValidationErrors
 };

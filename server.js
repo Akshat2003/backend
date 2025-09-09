@@ -7,7 +7,7 @@ require('dotenv').config();
 
 // Import configurations
 const connectDB = require('./config/database');
-const { createCorsMiddleware, handleCorsError } = require('./middleware/cors');
+const corsOptions = require('./config/cors');
 
 // Import middleware
 const { globalErrorHandler } = require('./middleware/errorHandler');
@@ -19,7 +19,6 @@ const customerRoutes = require('./routes/customer');
 const siteRoutes = require('./routes/site');
 const machineRoutes = require('./routes/machine');
 const analyticsRoutes = require('./routes/analytics');
-const publicRoutes = require('./routes/public');
 
 // Import utilities
 const logger = require('./utils/logger');
@@ -36,12 +35,8 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// Enhanced CORS configuration
-const corsMiddleware = createCorsMiddleware();
-app.use(corsMiddleware);
-
-// Handle preflight requests explicitly
-app.options('*', corsMiddleware);
+// CORS configuration
+app.use(cors(corsOptions));
 
 // Compression middleware
 app.use(compression());
@@ -73,7 +68,6 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
-app.use('/api/public', publicRoutes); // Public routes (no auth required)
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/customers', customerRoutes);
@@ -89,9 +83,6 @@ app.use('*', (req, res) => {
     error: 'Not Found'
   });
 });
-
-// CORS error handler (must be before global error handler)
-app.use(handleCorsError);
 
 // Global error handler (must be last)
 app.use(globalErrorHandler);

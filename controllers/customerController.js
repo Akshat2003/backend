@@ -340,32 +340,6 @@ class CustomerController {
       next(error);
     }
   }
-
-  /**
-   * Helper method to search customer by phone number
-   * Used internally and by public routes
-   */
-  async searchCustomerByPhone(phoneNumber) {
-    try {
-      return await customerService.searchCustomerByPhone(phoneNumber);
-    } catch (error) {
-      logger.error('Error searching customer by phone:', error);
-      return null;
-    }
-  }
-
-  /**
-   * Helper method to get customer by ID
-   * Used internally and by public routes
-   */
-  async getCustomerByIdInternal(customerId) {
-    try {
-      return await customerService.getCustomerById(customerId);
-    } catch (error) {
-      logger.error('Error getting customer by ID:', error);
-      return null;
-    }
-  }
 }
 
 module.exports = new CustomerController();

@@ -11,13 +11,6 @@ const corsOptions = {
       'https://parking-operator.vercel.app', // Add your production domain
     ];
 
-    // In production, be more permissive for CORS debugging
-    if (process.env.NODE_ENV === 'production') {
-      // Log the origin for debugging
-      console.log('CORS Origin:', origin);
-      console.log('Allowed Origins:', allowedOrigins);
-    }
-
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) {
       return callback(null, true);
@@ -26,11 +19,7 @@ const corsOptions = {
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      // In production, log the rejected origin for debugging
-      if (process.env.NODE_ENV === 'production') {
-        console.log('CORS Origin Rejected:', origin);
-      }
-      callback(new Error(`Not allowed by CORS: ${origin}`), false);
+      callback(new Error('Not allowed by CORS'), false);
     }
   },
   credentials: true, // Allow cookies and authorization headers
@@ -51,7 +40,6 @@ const corsOptions = {
   ],
   maxAge: 86400, // 24 hours
   optionsSuccessStatus: 200, // For legacy browser support
-  preflightContinue: false, // Pass control to next handler after preflight
 };
 
 module.exports = corsOptions;
