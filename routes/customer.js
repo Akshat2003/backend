@@ -213,7 +213,7 @@ router.delete('/:id/membership',
  * @query {string} membershipType - Filter by membership type
  */
 router.get('/active-members', 
-  authorizeRoles('admin'),
+  authorizeRoles('admin', 'operator'),
   customerController.getActiveMembers
 );
 

@@ -2062,3 +2062,4 @@
 {"timestamp":"2025-09-09T10:03:48.550Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
 {"timestamp":"2025-09-09T11:02:54.029Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-09-09T11:04:04.741Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-09T11:54:43.137Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-4091,"syscall":"listen","address":"::","port":5001}}
