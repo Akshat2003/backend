@@ -473,6 +473,21 @@ const validateMembershipCreation = [
     .isInt({ min: 1, max: 120 })
     .withMessage('Validity term must be between 1 and 120 months'),
 
+  body('vehicleTypes')
+    .optional()
+    .isArray()
+    .withMessage('Vehicle types must be an array')
+    .custom((vehicleTypes) => {
+      if (vehicleTypes && vehicleTypes.length > 0) {
+        const validTypes = ['two-wheeler', 'four-wheeler'];
+        const invalidTypes = vehicleTypes.filter(type => !validTypes.includes(type));
+        if (invalidTypes.length > 0) {
+          throw new Error(`Invalid vehicle types: ${invalidTypes.join(', ')}. Must be: ${validTypes.join(', ')}`);
+        }
+      }
+      return true;
+    }),
+
   handleValidationErrors
 ];
 
@@ -495,6 +510,11 @@ const validateMembershipCredentials = [
     .withMessage('PIN must be exactly 4 digits')
     .isNumeric()
     .withMessage('PIN must contain only numbers'),
+
+  body('vehicleType')
+    .optional()
+    .isIn(['two-wheeler', 'four-wheeler'])
+    .withMessage('Invalid vehicle type. Must be two-wheeler or four-wheeler'),
 
   handleValidationErrors
 ];

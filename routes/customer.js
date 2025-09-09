@@ -156,11 +156,11 @@ router.delete('/:id/vehicles/:vehicleId',
 
 /**
  * @route POST /api/customers/validate-membership
- * @desc Validate vehicle membership credentials
+ * @desc Validate membership credentials for vehicle type
  * @access Private
  * @body {string} membershipNumber - 6-digit membership number
  * @body {string} pin - 4-digit PIN
- * @body {string} vehicleNumber - Vehicle number (optional)
+ * @body {string} vehicleType - Vehicle type (two-wheeler/four-wheeler)
  */
 router.post('/validate-membership', 
   validation.validateMembershipCredentials,
@@ -176,8 +176,23 @@ router.post('/validate-membership',
 router.get('/:id/memberships', customerController.getCustomerMemberships);
 
 /**
+ * @route POST /api/customers/:id/membership
+ * @desc Create membership for customer with vehicle type coverage
+ * @access Private (Operators and above)  
+ * @param {string} id - Customer ID
+ * @body {string} membershipType - Type of membership (monthly/quarterly/yearly/premium)
+ * @body {number} validityTerm - Validity term in months (default: 12)
+ * @body {array} vehicleTypes - Array of vehicle types ['two-wheeler', 'four-wheeler']
+ */
+router.post('/:id/membership', 
+  authorizeRoles('operator', 'supervisor', 'admin'),
+  validation.validateMembershipCreation,
+  customerController.createCustomerMembership
+);
+
+/**
  * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
- * @desc Create membership for customer vehicle
+ * @desc Create membership for customer vehicle (legacy support)
  * @access Private (Operators and above)
  * @param {string} id - Customer ID
  * @param {string} vehicleNumber - Vehicle number

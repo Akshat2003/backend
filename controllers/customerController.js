@@ -229,13 +229,38 @@ class CustomerController {
   }
 
   /**
-   * Create membership for customer vehicle
+   * Create membership for customer with vehicle type coverage
+   * @route POST /api/customers/:id/membership
+   */
+  async createCustomerMembership(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { membershipType, validityTerm = 12, vehicleTypes } = req.body;
+      const createdBy = req.user._id;
+
+      const customer = await customerService.createCustomerMembership(
+        id,
+        membershipType,
+        validityTerm,
+        createdBy,
+        vehicleTypes
+      );
+
+      responseHandler.created(res, { customer }, 'Customer membership created successfully');
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Create membership for customer vehicle (legacy support)
    * @route POST /api/customers/:id/vehicles/:vehicleNumber/membership
    */
   async createVehicleMembership(req, res, next) {
     try {
       const { id, vehicleNumber } = req.params;
-      const { membershipType, validityTerm = 12 } = req.body;
+      const { membershipType, validityTerm = 12, vehicleTypes } = req.body;
       const createdBy = req.user._id;
 
       const customer = await customerService.createVehicleMembership(
@@ -243,7 +268,8 @@ class CustomerController {
         vehicleNumber, 
         membershipType, 
         validityTerm, 
-        createdBy
+        createdBy,
+        vehicleTypes
       );
 
       responseHandler.created(res, { customer }, 'Vehicle membership created successfully');
@@ -259,12 +285,13 @@ class CustomerController {
    */
   async validateMembership(req, res, next) {
     try {
-      const { membershipNumber, pin, vehicleNumber } = req.body;
+      const { membershipNumber, pin, vehicleType } = req.body;
 
       const result = await customerService.validateVehicleMembershipCredentials(
         membershipNumber, 
         pin,
-        vehicleNumber
+        null, // vehicleNumber not needed anymore
+        vehicleType
       );
 
       if (!result) {

@@ -583,7 +583,57 @@ class CustomerService {
   }
 
   /**
-   * Create membership for customer vehicle
+   * Create membership for customer with vehicle type coverage
+   * @param {String} customerId - Customer ID
+   * @param {String} membershipType - Type of membership
+   * @param {Number} validityTerm - Validity term in months
+   * @param {String} createdBy - User ID who created the membership
+   * @param {Array} vehicleTypes - Array of vehicle types covered
+   * @returns {Promise<Object>} - Updated customer with membership
+   */
+  async createCustomerMembership(customerId, membershipType, validityTerm, createdBy, vehicleTypes) {
+    try {
+      const customer = await Customer.findById(customerId);
+      if (!customer) {
+        throw new AppError('Customer not found', 404);
+      }
+
+      if (customer.status !== 'active') {
+        throw new AppError('Cannot create membership for inactive customer', 400);
+      }
+
+      // Ensure customer has at least one vehicle to attach membership to
+      if (!customer.vehicles || customer.vehicles.length === 0) {
+        throw new AppError('Customer must have at least one vehicle to create membership', 400);
+      }
+
+      // Use the first active vehicle to store the membership
+      const targetVehicle = customer.vehicles.find(v => v.isActive) || customer.vehicles[0];
+      
+      // Create customer membership using the model method
+      await customer.createVehicleMembership(targetVehicle.vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes);
+
+      logger.info('Customer membership created successfully', {
+        customerId: customer._id,
+        membershipType,
+        vehicleTypes,
+        validityTerm,
+        createdBy
+      });
+
+      return this.sanitizeCustomer(customer);
+
+    } catch (error) {
+      logger.error('Create customer membership failed:', error.message);
+      if (error instanceof AppError) {
+        throw error;
+      }
+      throw new AppError(error.message || 'Failed to create customer membership', 500);
+    }
+  }
+
+  /**
+   * Create membership for customer vehicle (legacy support)
    * @param {String} customerId - Customer ID
    * @param {String} vehicleNumber - Vehicle number
    * @param {String} membershipType - Type of membership
@@ -591,7 +641,7 @@ class CustomerService {
    * @param {String} createdBy - User ID who created the membership
    * @returns {Promise<Object>} - Updated customer with vehicle membership
    */
-  async createVehicleMembership(customerId, vehicleNumber, membershipType, validityTerm, createdBy) {
+  async createVehicleMembership(customerId, vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes = null) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
@@ -603,7 +653,7 @@ class CustomerService {
       }
 
       // Create vehicle membership using the model method
-      await customer.createVehicleMembership(vehicleNumber, membershipType, validityTerm, createdBy);
+      await customer.createVehicleMembership(vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes);
 
       const vehicle = customer.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
 
@@ -634,7 +684,7 @@ class CustomerService {
    * @param {String} vehicleNumber - Optional vehicle number for validation
    * @returns {Promise<Object|null>} - Customer and vehicle with valid membership or null
    */
-  async validateVehicleMembershipCredentials(membershipNumber, pin, vehicleNumber = null) {
+  async validateVehicleMembershipCredentials(membershipNumber, pin, vehicleNumber = null, bookingVehicleType = null) {
     try {
       const customer = await Customer.validateVehicleMembershipCredentials(membershipNumber, pin);
       
@@ -644,7 +694,9 @@ class CustomerService {
           v.membership &&
           v.membership.membershipNumber === membershipNumber &&
           v.membership.isActive &&
-          (!vehicleNumber || v.vehicleNumber === vehicleNumber.toUpperCase())
+          // Validate vehicle type coverage only (no vehicle number check)
+          (!bookingVehicleType || 
+           (v.membership.vehicleTypes && v.membership.vehicleTypes.includes(bookingVehicleType)))
         );
 
         if (vehicle) {

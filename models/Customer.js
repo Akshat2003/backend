@@ -85,6 +85,10 @@ const customerSchema = new mongoose.Schema({
         type: String,
         enum: ['monthly', 'quarterly', 'yearly', 'premium']
       },
+      vehicleTypes: [{
+        type: String,
+        enum: ['two-wheeler', 'four-wheeler']
+      }],
       issuedDate: {
         type: Date,
         default: null
@@ -433,7 +437,7 @@ customerSchema.methods.generatePIN = function() {
 };
 
 // Create membership for a specific vehicle
-customerSchema.methods.createVehicleMembership = async function(vehicleNumber, membershipType, validityTerm, createdBy) {
+customerSchema.methods.createVehicleMembership = async function(vehicleNumber, membershipType, validityTerm, createdBy, vehicleTypes = null) {
   const vehicle = this.vehicles.find(v => v.vehicleNumber === vehicleNumber.toUpperCase());
   
   if (!vehicle) {
@@ -466,6 +470,7 @@ customerSchema.methods.createVehicleMembership = async function(vehicleNumber, m
     membershipNumber,
     pin,
     membershipType,
+    vehicleTypes: vehicleTypes || [vehicle.vehicleType], // Use provided vehicleTypes or default to vehicle's type
     issuedDate: now,
     expiryDate,
     validityTerm,
