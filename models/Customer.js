@@ -444,7 +444,33 @@ customerSchema.methods.createVehicleMembership = async function(vehicleNumber, m
     throw new Error('Vehicle not found');
   }
   
-  if (vehicle.membership && vehicle.membership.isActive) {
+  // If vehicle has active membership, extend it with new vehicle types instead of creating new one
+  if (vehicle.membership && vehicle.membership.isActive && vehicleTypes) {
+    const existingVehicleTypes = vehicle.membership.vehicleTypes || [vehicle.vehicleType];
+    const newVehicleTypes = vehicleTypes.filter(vt => !existingVehicleTypes.includes(vt));
+    
+    if (newVehicleTypes.length > 0) {
+      // Extend existing membership with new vehicle types
+      vehicle.membership.vehicleTypes = [...existingVehicleTypes, ...newVehicleTypes];
+      vehicle.membership.membershipType = membershipType; // Update membership type if needed
+      vehicle.membership.validityTerm = validityTerm; // Update validity term
+      
+      // Extend expiry date if new term is longer
+      const newExpiryDate = new Date();
+      newExpiryDate.setMonth(newExpiryDate.getMonth() + validityTerm);
+      if (newExpiryDate > new Date(vehicle.membership.expiryDate)) {
+        vehicle.membership.expiryDate = newExpiryDate;
+      }
+      
+      return this.save();
+    } else {
+      // All requested vehicle types are already covered
+      return this;
+    }
+  }
+  
+  // Create new membership if no active membership exists
+  if (vehicle.membership && vehicle.membership.isActive && !vehicleTypes) {
     throw new Error('Vehicle already has an active membership');
   }
   
