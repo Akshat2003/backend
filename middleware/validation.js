@@ -243,8 +243,8 @@ const validateBookingCreation = [
     .withMessage('Machine number must follow format: M001, M002, etc.'),
 
   body('palletNumber')
-    .isInt({ min: 1, max: 8 })
-    .withMessage('Pallet number must be between 1 and 8'),
+    .isInt({ min: 1, max: 999 })
+    .withMessage('Pallet number must be a valid integer'),
 
   body('email')
     .optional()
