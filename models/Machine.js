@@ -483,14 +483,44 @@ machineSchema.pre('save', function(next) {
       vehicleCapacityPerPallet = this.machineType === 'two-wheeler' ? 6 : 1;
     }
     
-    for (let i = 1; i <= this.capacity.total; i++) {
-      this.pallets.push({
-        number: i,
-        status: PALLET_STATUS.AVAILABLE,
-        vehicleCapacity: vehicleCapacityPerPallet,
-        currentOccupancy: 0,
-        currentBookings: []
-      });
+    // Generate pallets with correct numbering based on parking type
+    if (this.parkingType === 'puzzle') {
+      // For puzzle parking, use floor-based numbering (101, 102, 103, 104, 201, 202, etc.)
+      let palletNumber = 101;
+      let floor = 1;
+      let palletInFloor = 1;
+      
+      for (let i = 1; i <= this.capacity.total; i++) {
+        this.pallets.push({
+          number: palletNumber,
+          customName: palletNumber.toString(),
+          status: PALLET_STATUS.AVAILABLE,
+          vehicleCapacity: vehicleCapacityPerPallet,
+          currentOccupancy: 0,
+          currentBookings: []
+        });
+        
+        palletInFloor++;
+        if (palletInFloor > 4) { // 4 pallets per floor for puzzle parking
+          floor++;
+          palletInFloor = 1;
+          palletNumber = (floor * 100) + 1; // 201, 301, 401, etc.
+        } else {
+          palletNumber++; // 102, 103, 104, etc.
+        }
+      }
+    } else {
+      // For rotary parking, use sequential numbering (1, 2, 3, 4, etc.)
+      for (let i = 1; i <= this.capacity.total; i++) {
+        this.pallets.push({
+          number: i,
+          customName: i.toString(),
+          status: PALLET_STATUS.AVAILABLE,
+          vehicleCapacity: vehicleCapacityPerPallet,
+          currentOccupancy: 0,
+          currentBookings: []
+        });
+      }
     }
   }
   
@@ -535,9 +565,14 @@ machineSchema.pre('save', function(next) {
 
 // Instance methods
 machineSchema.methods.occupyPallet = function(palletNumber, bookingId, vehicleNumber, position = null) {
-  const pallet = this.pallets.find(p => p.number === palletNumber);
+  // Search by both number and customName to handle both old and new pallet numbering systems
+  const pallet = this.pallets.find(p => 
+    p.number === palletNumber || 
+    p.number === parseInt(palletNumber) || 
+    p.customName === palletNumber.toString()
+  );
   if (!pallet) {
-    throw new Error('Pallet not found');
+    throw new Error(`Pallet not found: ${palletNumber}`);
   }
   
   // Check if pallet has available space
@@ -590,9 +625,14 @@ machineSchema.methods.occupyPallet = function(palletNumber, bookingId, vehicleNu
 };
 
 machineSchema.methods.releasePallet = function(palletNumber, bookingId) {
-  const pallet = this.pallets.find(p => p.number === palletNumber);
+  // Search by both number and customName to handle both old and new pallet numbering systems
+  const pallet = this.pallets.find(p => 
+    p.number === palletNumber || 
+    p.number === parseInt(palletNumber) || 
+    p.customName === palletNumber.toString()
+  );
   if (!pallet) {
-    throw new Error('Pallet not found');
+    throw new Error(`Pallet not found: ${palletNumber}`);
   }
   
   // Find and remove the specific booking
@@ -617,9 +657,14 @@ machineSchema.methods.releasePallet = function(palletNumber, bookingId) {
 };
 
 machineSchema.methods.releaseVehicle = function(palletNumber, vehicleNumber) {
-  const pallet = this.pallets.find(p => p.number === palletNumber);
+  // Search by both number and customName to handle both old and new pallet numbering systems
+  const pallet = this.pallets.find(p => 
+    p.number === palletNumber || 
+    p.number === parseInt(palletNumber) || 
+    p.customName === palletNumber.toString()
+  );
   if (!pallet) {
-    throw new Error('Pallet not found');
+    throw new Error(`Pallet not found: ${palletNumber}`);
   }
   
   // Find and remove the specific vehicle
