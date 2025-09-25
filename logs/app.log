@@ -2067,3 +2067,47 @@
 {"timestamp":"2025-09-09T12:11:13.890Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-09-09T15:54:31.309Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-09-09T15:54:41.524Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-09-25T06:58:39.253Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T06:58:40.547Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T06:59:56.432Z","level":"INFO","message":"👋 SIGTERM RECEIVED. Shutting down gracefully"}
+{"timestamp":"2025-09-25T06:59:56.432Z","level":"INFO","message":"SIGTERM received. Shutting down gracefully..."}
+{"timestamp":"2025-09-25T06:59:56.433Z","level":"INFO","message":"Process terminated"}
+{"timestamp":"2025-09-25T06:59:56.435Z","level":"INFO","message":"👋 SIGTERM RECEIVED. Shutting down gracefully"}
+{"timestamp":"2025-09-25T06:59:56.435Z","level":"INFO","message":"SIGTERM received. Shutting down gracefully..."}
+{"timestamp":"2025-09-25T06:59:56.435Z","level":"INFO","message":"Process terminated"}
+{"timestamp":"2025-09-25T06:59:56.481Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-09-25T06:59:56.484Z","level":"INFO","message":"MongoDB connection closed through app termination"}
+{"timestamp":"2025-09-25T07:00:25.606Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:00:30.242Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:19:42.191Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:19:42.948Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:20:10.146Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:20:11.552Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:21:27.766Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:21:28.552Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:30:47.193Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:30:48.537Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:31:37.417Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:31:38.090Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:34:32.491Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:34:33.183Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T07:35:16.920Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T07:35:17.616Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T08:35:01.584Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T08:35:02.796Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T08:41:48.773Z","level":"WARN","message":"Authentication failed: No token provided","data":{"ip":"::ffff:127.0.0.1","userAgent":"curl/7.82.0"}}
+{"timestamp":"2025-09-25T08:41:48.775Z","level":"ERROR","message":"Error Response: 401 - Access token is required"}
+{"timestamp":"2025-09-25T08:48:20.540Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T08:48:21.174Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:10:36.928Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:10:38.344Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:13:11.733Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:13:12.562Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:14:56.009Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:14:57.165Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:16:45.890Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:16:47.441Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:17:04.438Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:17:07.416Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-09-25T09:17:30.783Z","level":"INFO","message":"Server running in development mode on port 5001"}
+{"timestamp":"2025-09-25T09:17:33.813Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
