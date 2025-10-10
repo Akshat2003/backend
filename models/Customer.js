@@ -267,8 +267,8 @@ customerSchema.methods.generatePIN = function() {
 
 // Create or update membership for customer (works across ALL vehicles)
 customerSchema.methods.createMembership = async function(membershipType, validityTerm, createdBy, vehicleTypes = ['two-wheeler', 'four-wheeler']) {
-  // If customer has an active membership, check if we're adding a new vehicle type
-  if (this.membership && this.membership.isActive) {
+  // If customer has an active membership that is not expired, check if we're adding a new vehicle type
+  if (this.membership && this.membership.isActive && this.membership.expiryDate > new Date()) {
     const existingTypes = this.membership.vehicleTypes || [];
     const newTypes = vehicleTypes.filter(type => !existingTypes.includes(type));
     
