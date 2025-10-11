@@ -2354,3 +2354,106 @@
 {"timestamp":"2025-10-11T06:22:58.655Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
 {"timestamp":"2025-10-11T06:23:00.674Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
 {"timestamp":"2025-10-11T06:23:01.026Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:32:59.070Z","level":"WARN","message":"Authentication failed: No token provided","data":{"ip":"::ffff:127.0.0.1","userAgent":"curl/7.82.0"}}
+{"timestamp":"2025-10-11T06:32:59.072Z","level":"ERROR","message":"Error Response: 401 - Access token is required"}
+{"timestamp":"2025-10-11T06:57:13.125Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T06:57:23.434Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T07:04:52.807Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T07:05:02.944Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T07:42:26.401Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T07:42:36.575Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T08:06:16.065Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-11T08:06:16.069Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-11T08:06:16.073Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-11T08:06:16.073Z"}}
+{"timestamp":"2025-10-11T08:06:16.080Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-11T08:06:16.081Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-11T08:06:16.081Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-11T08:06:16.081Z"}}
+{"timestamp":"2025-10-11T08:06:52.851Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP101","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T08:06:52.852Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T08:06:52.925Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:06:54.533Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:06:54.994Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:14:08.191Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-11T08:14:09.172Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-11T08:14:42.527Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:14:42.565Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:14:42.621Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:14:42.704Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:14:44.344Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:14:44.813Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:02.593Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:16:02.644Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:16:02.723Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:02.821Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:05.377Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:07.349Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:09.268Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:10.071Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:11.372Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:11.880Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:14.299Z","level":"INFO","message":"User logged out successfully","data":{"operatorId":"OP101"}}
+{"timestamp":"2025-10-11T08:16:14.301Z","level":"INFO","message":"Success Response: 200 - Logout successful"}
+{"timestamp":"2025-10-11T08:16:18.565Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP102","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T08:16:18.568Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T08:16:18.658Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:19.001Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:16:19.414Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:21:19.683Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-11T08:21:20.297Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-11T08:24:09.194Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:24:09.219Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:24:09.284Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:09.373Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:11.617Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:12.278Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:39.064Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":16,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b09fca99905dd47dace4e4"}}}
+{"timestamp":"2025-10-11T08:24:39.069Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:39.187Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":16,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b09fca99905dd47dace4e4"}}}
+{"timestamp":"2025-10-11T08:24:39.188Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:49.900Z","level":"INFO","message":"User logged out successfully","data":{"operatorId":"OP102"}}
+{"timestamp":"2025-10-11T08:24:49.902Z","level":"INFO","message":"Success Response: 200 - Logout successful"}
+{"timestamp":"2025-10-11T08:24:59.446Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP001","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T08:24:59.447Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T08:24:59.515Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:59.587Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-11T08:24:59.718Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":17,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-11T08:24:59.720Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:07.293Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:07.362Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68ca51a5204c91e54fe035a7","membershipNumber":"568281","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T08:25:07.366Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T08:25:17.782Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:17.836Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68c0591d9fbf0eba1d87f7aa","membershipNumber":"302427","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T08:25:17.839Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T08:25:27.215Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:27.281Z","level":"WARN","message":"Invalid customer membership credentials","data":{"membershipNumber":"932072","pin":"****","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T08:25:27.285Z","level":"ERROR","message":"Error Response: 400 - Invalid membership number or PIN"}
+{"timestamp":"2025-10-11T08:25:55.536Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:25:55.569Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:25:55.782Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:55.856Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:55.894Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-11T08:25:56.021Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-11T08:26:03.177Z","level":"INFO","message":"User logged out successfully","data":{"operatorId":"OP001"}}
+{"timestamp":"2025-10-11T08:26:03.180Z","level":"INFO","message":"Success Response: 200 - Logout successful"}
+{"timestamp":"2025-10-11T08:26:07.797Z","level":"ERROR","message":"Login failed:","data":"Invalid credentials"}
+{"timestamp":"2025-10-11T08:26:07.798Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid credentials","statusCode":401,"stack":"Error: Invalid credentials\n    at AuthService.login (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:145:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async login (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:71:22)","path":"/api/auth/login","method":"POST","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1","body":{"operatorId":"OP101","password":"admin123"},"params":{},"query":{}}}
+{"timestamp":"2025-10-11T08:26:07.798Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid credentials","errorCode":null,"stack":"Error: Invalid credentials\n    at AuthService.login (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:145:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async login (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:71:22)"},"timestamp":"2025-10-11T08:26:07.798Z"}}
+{"timestamp":"2025-10-11T08:26:13.357Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP101","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T08:26:13.358Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T08:26:13.475Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:26:15.319Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:26:16.087Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:28:41.802Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-11T08:28:42.217Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-11T08:29:57.626Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:29:57.654Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:29:57.711Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:29:57.792Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:29:59.768Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:30:00.316Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:33:31.012Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:33:31.043Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T08:33:31.094Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:33:31.186Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T08:33:33.125Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T08:33:33.679Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}

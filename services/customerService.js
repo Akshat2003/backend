@@ -795,7 +795,7 @@ class CustomerService {
    */
   sanitizeCustomer(customer) {
     const customerObj = customer.toObject ? customer.toObject() : customer;
-    
+
     return {
       _id: customerObj._id,
       firstName: customerObj.firstName,
@@ -805,9 +805,9 @@ class CustomerService {
       email: customerObj.email,
       vehicles: customerObj.vehicles ? customerObj.vehicles.filter(v => v.isActive) : [],
       membership: customerObj.membership || null,
-      hasMembership: !!(customerObj.membership && 
-                      customerObj.membership.isActive && 
-                      customerObj.membership.membershipNumber && 
+      hasMembership: !!(customerObj.membership &&
+                      customerObj.membership.isActive &&
+                      customerObj.membership.membershipNumber &&
                       customerObj.membership.expiryDate > new Date()),
       status: customerObj.status,
       createdAt: customerObj.createdAt,
