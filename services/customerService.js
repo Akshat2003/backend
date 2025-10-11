@@ -1,5 +1,6 @@
 const Customer = require('../models/Customer');
 const Booking = require('../models/Booking');
+const MembershipPayment = require('../models/MembershipPayment');
 const logger = require('../utils/logger');
 const { AppError } = require('../middleware/errorHandler');
 

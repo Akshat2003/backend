@@ -2271,3 +2271,86 @@
 {"timestamp":"2025-10-10T12:04:01.753Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-10-10T12:09:28.715Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-10-10T12:17:38.978Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T13:17:38.366Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T17:17:57.644Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T17:33:27.258Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T18:05:07.904Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T19:27:22.758Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T19:42:35.109Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T21:03:43.617Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T21:12:46.335Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T21:46:30.233Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T21:47:32.637Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T22:05:10.335Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T22:19:42.398Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-10T23:25:36.921Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-10T23:59:33.423Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T00:31:51.975Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T01:00:38.561Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T01:42:43.550Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T01:58:08.107Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T03:02:31.643Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T03:28:43.547Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T03:45:24.660Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T04:11:55.108Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T04:45:54.192Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T06:15:17.278Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T06:19:02.487Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-11T06:19:03.249Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-11T06:20:27.760Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP101","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T06:20:27.762Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T06:20:27.845Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T06:20:30.358Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":14,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-11T06:20:30.360Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-11T06:20:30.454Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":14,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-11T06:20:30.455Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-11T06:20:46.449Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:20:46.506Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68c058d79fbf0eba1d87f78a","membershipNumber":"656527","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:20:46.507Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T06:21:12.507Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:12.570Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68d0e1bb8d14a38d02f7d28b","membershipNumber":"159783","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:12.575Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T06:21:16.229Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:16.279Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68c64ad520938602c9fd6921","membershipNumber":"602719","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:16.280Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T06:21:20.660Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:20.717Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68e34572aba5b359d0df3fbe","membershipNumber":"537128","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:20.718Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T06:21:25.902Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:25.956Z","level":"WARN","message":"Invalid customer membership credentials","data":{"membershipNumber":"654604","pin":"****","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:25.957Z","level":"ERROR","message":"Error Response: 400 - Invalid membership number or PIN"}
+{"timestamp":"2025-10-11T06:21:43.778Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:43.840Z","level":"WARN","message":"Invalid customer membership credentials","data":{"membershipNumber":"654604","pin":"****","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:43.842Z","level":"ERROR","message":"Error Response: 400 - Invalid membership number or PIN"}
+{"timestamp":"2025-10-11T06:21:50.150Z","level":"INFO","message":"Customer membership and payment record created successfully","data":{"customerId":"68c059639fbf0eba1d87f7ca","membershipType":"monthly","vehicleTypes":["four-wheeler"],"validityTerm":1,"createdBy":"68b15b48eb57a5d254122ecb"}}
+{"timestamp":"2025-10-11T06:21:50.160Z","level":"INFO","message":"Success Response: 201 - Customer membership created successfully"}
+{"timestamp":"2025-10-11T06:21:53.842Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-11T06:21:53.902Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68c059639fbf0eba1d87f7ca","membershipNumber":"915390","bookingVehicleType":"four-wheeler"}}
+{"timestamp":"2025-10-11T06:21:53.902Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-11T06:22:14.970Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:15.783Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:22.495Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T06:22:22.527Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-11T06:22:22.584Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:22.658Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:24.354Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:24.718Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:32.581Z","level":"INFO","message":"User logged out successfully","data":{"operatorId":"OP101"}}
+{"timestamp":"2025-10-11T06:22:32.581Z","level":"INFO","message":"Success Response: 200 - Logout successful"}
+{"timestamp":"2025-10-11T06:22:36.568Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP001","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T06:22:36.570Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T06:22:36.644Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:36.720Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:37.013Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:37.364Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:42.063Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:42.124Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:42.363Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:22:44.364Z","level":"INFO","message":"Success Response: 200 - Search completed successfully"}
+{"timestamp":"2025-10-11T06:22:54.612Z","level":"INFO","message":"User logged out successfully","data":{"operatorId":"OP001"}}
+{"timestamp":"2025-10-11T06:22:54.624Z","level":"INFO","message":"Success Response: 200 - Logout successful"}
+{"timestamp":"2025-10-11T06:22:58.573Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP101","ipAddress":"::1"}}
+{"timestamp":"2025-10-11T06:22:58.577Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-11T06:22:58.655Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-11T06:23:00.674Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T06:23:01.026Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
