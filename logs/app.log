@@ -2457,3 +2457,13 @@
 {"timestamp":"2025-10-11T08:33:31.186Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
 {"timestamp":"2025-10-11T08:33:33.125Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
 {"timestamp":"2025-10-11T08:33:33.679Z","level":"INFO","message":"Success Response: 200 - Customers retrieved successfully"}
+{"timestamp":"2025-10-11T09:05:05.672Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T09:14:01.380Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T09:42:06.212Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T09:42:16.397Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T10:27:20.294Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T10:31:09.160Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T10:36:46.233Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T10:36:56.348Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T11:16:34.301Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T11:16:44.771Z","level":"INFO","message":"MongoDB reconnected"}
