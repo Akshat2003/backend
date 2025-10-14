@@ -2467,3 +2467,273 @@
 {"timestamp":"2025-10-11T10:36:56.348Z","level":"INFO","message":"MongoDB reconnected"}
 {"timestamp":"2025-10-11T11:16:34.301Z","level":"WARN","message":"MongoDB disconnected"}
 {"timestamp":"2025-10-11T11:16:44.771Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T11:45:57.498Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T11:46:30.478Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T11:49:07.838Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T11:49:17.945Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T12:01:20.936Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T12:09:01.622Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T12:34:04.227Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T12:34:14.361Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T12:49:33.309Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T12:49:43.603Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T13:00:13.475Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T13:00:29.817Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T13:04:50.750Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T13:20:00.704Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T13:21:19.126Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T15:01:11.306Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T15:29:19.750Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T15:58:32.588Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T16:11:26.042Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T16:11:36.172Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T17:26:31.702Z","level":"INFO","message":"👋 SIGTERM RECEIVED. Shutting down gracefully"}
+{"timestamp":"2025-10-11T17:26:31.703Z","level":"INFO","message":"SIGTERM received. Shutting down gracefully..."}
+{"timestamp":"2025-10-11T17:26:31.706Z","level":"INFO","message":"Process terminated"}
+{"timestamp":"2025-10-11T17:26:31.707Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"errno":-32,"code":"EPIPE","syscall":"write"}}
+{"timestamp":"2025-10-11T17:51:03.505Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-11T17:51:10.180Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-11T18:04:55.070Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T18:06:28.097Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T18:09:48.728Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T18:12:31.491Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T18:15:38.843Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T18:16:45.388Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T19:18:58.901Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T19:19:09.272Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T19:57:35.294Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T20:30:19.272Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T21:38:44.156Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T21:43:17.217Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-11T23:23:39.346Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-11T23:53:43.469Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T00:44:49.002Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T01:03:16.717Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T01:40:27.606Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T02:04:23.887Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T03:13:23.557Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T03:41:22.183Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T04:42:24.343Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T04:42:34.568Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T05:31:32.170Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T05:43:24.098Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T06:02:00.703Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T06:35:55.216Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T06:42:28.244Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T06:42:41.044Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T06:44:37.894Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T06:44:54.708Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T07:14:26.726Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T07:14:42.695Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T07:45:21.933Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T07:45:33.235Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:01:09.347Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:01:19.920Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:09:54.904Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:10:05.538Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:18:19.356Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:18:35.441Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:21:34.168Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:21:44.395Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:36:33.945Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:36:51.744Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T08:46:34.450Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T08:46:44.759Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:02:08.238Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:03:16.523Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:14:23.013Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:14:34.355Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:37:51.387Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:38:04.960Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:42:46.171Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:42:58.821Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:47:16.955Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:47:27.125Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T09:59:30.689Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T09:59:43.061Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T10:13:50.705Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T10:14:02.638Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T10:29:52.737Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T10:30:08.509Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T10:48:29.713Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T10:48:42.586Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T10:50:11.539Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T10:50:22.884Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T11:42:53.481Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T11:43:11.175Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T11:48:37.087Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T11:48:51.873Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T13:11:08.857Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T13:21:05.515Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T13:36:53.426Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T14:05:06.401Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T14:59:54.983Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T15:00:07.516Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T15:01:18.478Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T15:16:38.965Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T15:22:31.578Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T15:22:43.899Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T15:36:27.400Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T15:36:37.659Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T15:51:56.955Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T15:52:09.349Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T16:26:35.419Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T16:26:45.666Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T16:45:41.540Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T17:55:15.009Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T18:28:31.701Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T18:30:24.562Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T18:41:08.551Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T18:41:22.283Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T18:42:22.962Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-12T18:42:25.484Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-00.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-12T18:50:11.001Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T18:50:23.430Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T19:07:05.291Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T19:07:43.336Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T19:10:37.084Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T19:14:02.046Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T20:00:55.657Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T20:01:05.976Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-12T20:11:10.434Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-12T20:11:20.736Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-13T07:50:43.810Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-13T07:50:44.292Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-13T07:51:30.008Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-10-13T07:52:19.203Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-13T07:52:19.640Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-13T07:58:53.194Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-13T08:09:29.094Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-13T08:10:19.065Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-13T08:10:29.872Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-13T08:24:04.269Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-13T08:24:14.925Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-13T08:26:40.403Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-13T08:26:50.841Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T07:31:41.603Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-14T07:31:42.054Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-14T07:33:40.893Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-10-14T07:36:51.101Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-14T07:36:51.102Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-10-14T07:36:51.701Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-14T07:37:21.030Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-14T07:37:21.032Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-10-14T07:37:21.473Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-14T07:49:04.323Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-14T07:49:04.323Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"::","port":5000}}
+{"timestamp":"2025-10-14T07:49:04.762Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-01.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-14T07:59:17.367Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T07:59:27.624Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T08:03:13.290Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-14T08:03:13.292Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-14T08:03:13.292Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-14T08:03:13.292Z"}}
+{"timestamp":"2025-10-14T08:03:13.298Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-14T08:03:13.298Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-14T08:03:13.298Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-14T08:03:13.298Z"}}
+{"timestamp":"2025-10-14T08:03:50.476Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP001","ipAddress":"::1"}}
+{"timestamp":"2025-10-14T08:03:50.478Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-14T08:03:50.558Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T08:03:50.873Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T08:04:01.634Z","level":"INFO","message":"Success Response: 200 - Active membership found"}
+{"timestamp":"2025-10-14T08:07:25.452Z","level":"INFO","message":"Success Response: 200 - Active membership found"}
+{"timestamp":"2025-10-14T08:07:48.840Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T08:07:49.104Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T08:07:49.226Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T08:07:49.336Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T08:07:49.679Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T08:07:49.775Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T08:11:30.932Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T08:17:23.317Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T08:33:04.334Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T08:33:14.580Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T08:35:31.453Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T08:35:41.670Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T08:59:03.257Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T08:59:03.287Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T08:59:03.496Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T08:59:03.552Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T08:59:03.757Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T08:59:03.830Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:00:28.751Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:00:38.922Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T09:04:05.195Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:04:05.220Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:04:05.378Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:04:05.427Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:04:05.585Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:04:05.661Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:13:48.211Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:13:58.511Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T09:29:38.874Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:29:49.069Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T09:32:04.486Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:32:15.187Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T09:43:47.493Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:43:47.521Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:43:47.709Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:43:47.766Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:43:47.945Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:43:48.016Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:45:05.740Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:45:16.014Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T09:50:42.039Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:50:42.062Z","level":"INFO","message":"Success Response: 200 - Token is valid"}
+{"timestamp":"2025-10-14T09:50:42.224Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:50:42.275Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T09:50:42.462Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:50:42.529Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T09:53:47.630Z","level":"WARN","message":"MongoDB disconnected"}
+{"timestamp":"2025-10-14T09:53:57.872Z","level":"INFO","message":"MongoDB reconnected"}
+{"timestamp":"2025-10-14T10:00:33.289Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:00:33.291Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:18:14.807Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:18:14.808Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:20:14.922Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:20:27.915Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:21:00.625Z","level":"ERROR","message":"UNCAUGHT EXCEPTION! 💥 Shutting down...","data":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/aryanswizzy/Downloads/sparkee operator/backend/services/bookingService.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/bookingController.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/routes/booking.js","/Users/aryanswizzy/Downloads/sparkee operator/backend/server.js"]}}
+{"timestamp":"2025-10-14T10:33:03.378Z","level":"INFO","message":"Server running in development mode on port 5000"}
+{"timestamp":"2025-10-14T10:33:04.073Z","level":"INFO","message":"MongoDB Connected: ac-oo4cm9e-shard-00-02.4ms5fvz.mongodb.net"}
+{"timestamp":"2025-10-14T10:35:44.616Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-14T10:35:44.618Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-14T10:35:44.618Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-14T10:35:44.618Z"}}
+{"timestamp":"2025-10-14T10:35:44.622Z","level":"ERROR","message":"Token validation failed:","data":"Invalid access token"}
+{"timestamp":"2025-10-14T10:35:44.622Z","level":"ERROR","message":"Global Error Handler:","data":{"message":"Invalid token","statusCode":401,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)","path":"/api/auth/validate","method":"GET","ip":"::1","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1","body":{},"params":{},"query":{}}}
+{"timestamp":"2025-10-14T10:35:44.622Z","level":"ERROR","message":"Development Error:","data":{"success":false,"error":{"statusCode":401,"message":"Invalid token","errorCode":null,"stack":"Error: Invalid token\n    at AuthService.validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/services/authService.js:481:13)\n    at validateToken (/Users/aryanswizzy/Downloads/sparkee operator/backend/controllers/authController.js:281:40)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:284:15\n    at router.process_params (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:280:10)\n    at router.handle (/Users/aryanswizzy/Downloads/sparkee operator/backend/node_modules/express/lib/router/index.js:175:3)"},"timestamp":"2025-10-14T10:35:44.622Z"}}
+{"timestamp":"2025-10-14T10:35:52.069Z","level":"INFO","message":"User logged in successfully","data":{"operatorId":"OP001","ipAddress":"::1"}}
+{"timestamp":"2025-10-14T10:35:52.070Z","level":"INFO","message":"Success Response: 200 - Login successful"}
+{"timestamp":"2025-10-14T10:35:52.116Z","level":"INFO","message":"Success Response: 200 - Profile retrieved successfully"}
+{"timestamp":"2025-10-14T10:35:52.181Z","level":"INFO","message":"Success Response: 200 - Sites retrieved successfully"}
+{"timestamp":"2025-10-14T10:35:57.555Z","level":"INFO","message":"Success Response: 200 - Active membership found"}
+{"timestamp":"2025-10-14T10:35:59.252Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":18,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-14T10:35:59.253Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-14T10:35:59.345Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":18,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-14T10:35:59.346Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:01.286Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:17.065Z","level":"INFO","message":"Success Response: 200 - Active membership found"}
+{"timestamp":"2025-10-14T10:36:29.881Z","level":"INFO","message":"Available machines retrieved","data":{"vehicleType":"two-wheeler","siteId":"68b1185c031a733743dccd62","count":2}}
+{"timestamp":"2025-10-14T10:36:29.881Z","level":"INFO","message":"Success Response: 200 - Available machines retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:32.073Z","level":"INFO","message":"Machine retrieved by ID","data":{"machineId":"68b11d88a0c5c9a37edba8c4"}}
+{"timestamp":"2025-10-14T10:36:32.074Z","level":"INFO","message":"Success Response: 200 - Machine pallets retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:40.153Z","level":"INFO","message":"Customer name updated during booking","data":{"customerId":"68c7b3cd87849ce8165ef485","oldName":"aryan aryan","newName":"aryan"}}
+{"timestamp":"2025-10-14T10:36:40.180Z","level":"INFO","message":"Machine validation passed (format only)","data":{"machineNumber":"M112","palletNumber":"101"}}
+{"timestamp":"2025-10-14T10:36:40.255Z","level":"ERROR","message":"Occupy pallet failed:","data":"Machine validation failed: capacity.total: Path `capacity.total` (75) is more than maximum allowed value (50)."}
+{"timestamp":"2025-10-14T10:36:40.256Z","level":"ERROR","message":"Failed to occupy machine pallet","data":{"error":"Machine validation failed: capacity.total: Path `capacity.total` (75) is more than maximum allowed value (50).","machineNumber":"M112","palletNumber":"101","bookingId":"68ee27b808425e69375432b9"}}
+{"timestamp":"2025-10-14T10:36:40.256Z","level":"INFO","message":"About to populate customer information"}
+{"timestamp":"2025-10-14T10:36:40.277Z","level":"INFO","message":"Customer information populated successfully"}
+{"timestamp":"2025-10-14T10:36:40.300Z","level":"INFO","message":"Customer booking statistics updated","data":{"customerId":"68c7b3cd87849ce8165ef485","bookingId":"68ee27b808425e69375432b9"}}
+{"timestamp":"2025-10-14T10:36:40.301Z","level":"INFO","message":"Booking created successfully","data":{"bookingId":"68ee27b808425e69375432b9","bookingNumber":"BKTW38200184","vehicleNumber":"MP09XC1404"}}
+{"timestamp":"2025-10-14T10:36:40.301Z","level":"INFO","message":"About to return booking object"}
+{"timestamp":"2025-10-14T10:36:40.301Z","level":"INFO","message":"Creating safe booking response object..."}
+{"timestamp":"2025-10-14T10:36:40.301Z","level":"INFO","message":"Safe booking object created successfully","data":{"isNewCustomer":false,"customerNameUpdated":true,"customerId":"68c7b3cd87849ce8165ef485"}}
+{"timestamp":"2025-10-14T10:36:40.302Z","level":"INFO","message":"Success Response: 201 - Customer name updated and booking created successfully"}
+{"timestamp":"2025-10-14T10:36:43.186Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":19,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-14T10:36:43.187Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:43.255Z","level":"INFO","message":"Bookings retrieved successfully","data":{"total":19,"page":1,"totalPages":1,"filters":{"status":"active","siteId":"68b1185c031a733743dccd62"}}}
+{"timestamp":"2025-10-14T10:36:43.256Z","level":"INFO","message":"Success Response: 200 - Bookings retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:45.453Z","level":"INFO","message":"Success Response: 200 - Customer retrieved successfully"}
+{"timestamp":"2025-10-14T10:36:45.502Z","level":"INFO","message":"Customer membership validated successfully","data":{"customerId":"68c7b3cd87849ce8165ef485","membershipNumber":"745411","bookingVehicleType":"two-wheeler"}}
+{"timestamp":"2025-10-14T10:36:45.503Z","level":"INFO","message":"Success Response: 200 - Membership validated successfully"}
+{"timestamp":"2025-10-14T10:36:50.373Z","level":"ERROR","message":"Release vehicle failed:","data":"Vehicle not found on this pallet"}
+{"timestamp":"2025-10-14T10:36:50.374Z","level":"ERROR","message":"Failed to release machine pallet on booking completion","data":{"error":"Vehicle not found on this pallet","bookingId":"68ee27b808425e69375432b9","machineNumber":"M112","palletNumber":"101"}}
+{"timestamp":"2025-10-14T10:36:50.476Z","level":"INFO","message":"Booking completed successfully","data":{"bookingId":"68ee27b808425e69375432b9","completedBy":"68a45b5bc920c2dbf3eebadd","duration":"0h 0m"}}
+{"timestamp":"2025-10-14T10:36:50.477Z","level":"INFO","message":"Success Response: 200 - Booking completed successfully"}

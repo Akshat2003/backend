@@ -117,14 +117,58 @@ router.get('/',
  * @route GET /api/membership-payments/revenue-by-type
  * @access Private (Admin)
  */
-router.get('/revenue-by-type', 
+router.get('/revenue-by-type',
   authenticateToken,
   authorizeRoles('admin'),
   async (req, res, next) => {
     try {
       const result = await MembershipPayment.getRevenueByType();
-      
+
       responseHandler.success(res, result, 'Revenue by type fetched successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
+ * Check if phone number has active membership
+ * @route GET /api/membership-payments/check-membership/:phoneNumber
+ * @access Private (Operator, Admin)
+ */
+router.get('/check-membership/:phoneNumber',
+  authenticateToken,
+  authorizeRoles('admin', 'operator'),
+  async (req, res, next) => {
+    try {
+      const { phoneNumber } = req.params;
+
+      // Find all memberships for this phone number
+      const memberships = await MembershipPayment.find({
+        customerPhone: phoneNumber,
+        status: 'completed'
+      }).sort({ expiryDate: -1 });
+
+      // Check if any membership is currently active
+      const activeMembership = memberships.find(membership => membership.isActive());
+
+      if (activeMembership) {
+        responseHandler.success(res, {
+          hasActiveMembership: true,
+          membership: {
+            membershipNumber: activeMembership.membershipNumber,
+            membershipType: activeMembership.membershipType,
+            startDate: activeMembership.startDate,
+            expiryDate: activeMembership.expiryDate,
+            vehicleTypes: activeMembership.vehicleTypes
+          }
+        }, 'Active membership found');
+      } else {
+        responseHandler.success(res, {
+          hasActiveMembership: false,
+          membership: null
+        }, 'No active membership found');
+      }
     } catch (error) {
       next(error);
     }
