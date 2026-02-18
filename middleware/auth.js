@@ -66,16 +66,6 @@ const authenticateToken = async (req, res, next) => {
       return responseHandler.unauthorized(res, 'Account is not active');
     }
 
-    // Check if user account is locked
-    if (user.isLocked) {
-      logger.warn('Authentication failed: User account locked', {
-        userId: user._id,
-        lockUntil: user.lockUntil,
-        ip: req.ip
-      });
-      return responseHandler.unauthorized(res, 'Account is temporarily locked');
-    }
-
     // Check if password was changed after token was issued
     const tokenIssuedAt = new Date(decoded.iat * 1000);
     if (user.passwordChangedAt && user.passwordChangedAt > tokenIssuedAt) {
