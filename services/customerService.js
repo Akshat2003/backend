@@ -607,16 +607,13 @@ class CustomerService {
       // Create customer membership using the model method
       await customer.createMembership(membershipType, validityTerm, createdBy, vehicleTypes);
 
-      // Calculate membership amount based on type if not provided
+      // Calculate membership amount based on vehicle types and term
       let amount = paymentDetails.amount;
       if (!amount) {
-        const membershipPrices = {
-          monthly: 500,
-          quarterly: 1200,
-          yearly: 4000,
-          premium: 6000
-        };
-        amount = membershipPrices[membershipType] || 500;
+        const termMonths = { monthly: 1, quarterly: 3, yearly: 12, premium: 24 };
+        const months = termMonths[membershipType] || validityTerm || 1;
+        const types = vehicleTypes && vehicleTypes.length ? vehicleTypes : ['two-wheeler'];
+        amount = types.reduce((total, vt) => total + (vt === 'four-wheeler' ? 1000 : 750) * months, 0);
       }
 
       // Create MembershipPayment record
