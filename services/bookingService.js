@@ -53,7 +53,7 @@ class BookingService {
         // Extract first and last name from customerName
         const nameParts = customerName.trim().split(' ');
         const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ') || firstName;
+        const lastName = nameParts.slice(1).join(' ') || '-';
 
         customer = new Customer({
           firstName,
@@ -86,7 +86,7 @@ class BookingService {
           // Update customer name with operator-provided name
           const nameParts = providedName.split(' ');
           const newFirstName = nameParts[0];
-          const newLastName = nameParts.slice(1).join(' ') || newFirstName;
+          const newLastName = nameParts.slice(1).join(' ') || '-';
           
           customer.firstName = newFirstName;
           customer.lastName = newLastName;

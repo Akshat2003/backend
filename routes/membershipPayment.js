@@ -52,7 +52,7 @@ router.get('/revenue',
  */
 router.get('/', 
   authenticateToken,
-  authorizeRoles('admin'),
+  authorizeRoles('admin', 'operator'),
   async (req, res, next) => {
     try {
       const {
