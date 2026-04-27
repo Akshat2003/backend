@@ -593,7 +593,7 @@ class CustomerService {
    * @param {Array} vehicleTypes - Array of vehicle types covered
    * @returns {Promise<Object>} - Updated customer with membership
    */
-  async createCustomerMembership(customerId, membershipType, validityTerm, createdBy, vehicleTypes, paymentDetails = {}) {
+  async createCustomerMembership(customerId, membershipType, validityTerm, createdBy, vehicleTypes, paymentDetails = {}, siteId = null) {
     try {
       const customer = await Customer.findById(customerId);
       if (!customer) {
@@ -618,6 +618,7 @@ class CustomerService {
 
       // Create MembershipPayment record
       const membershipPayment = new MembershipPayment({
+        siteId: siteId || undefined,
         customerId: customer._id,
         customerName: customer.fullName,
         customerPhone: customer.phoneNumber,

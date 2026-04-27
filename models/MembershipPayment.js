@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const membershipPaymentSchema = new mongoose.Schema({
+  // Site association - MULTI-SITE SUPPORT
+  // Optional: existing rows have no siteId. New rows tag the site at purchase
+  // time so site-scoped views can filter them.
+  siteId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Site',
+    index: true
+  },
   // Customer reference
   customerId: {
     type: mongoose.Schema.Types.ObjectId,

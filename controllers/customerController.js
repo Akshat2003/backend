@@ -235,7 +235,7 @@ class CustomerController {
   async createCustomerMembership(req, res, next) {
     try {
       const { id } = req.params;
-      const { membershipType, validityTerm = 12, vehicleTypes, paymentDetails } = req.body;
+      const { membershipType, validityTerm = 12, vehicleTypes, paymentDetails, siteId } = req.body;
       const createdBy = req.user._id;
 
       const customer = await customerService.createCustomerMembership(
@@ -244,7 +244,8 @@ class CustomerController {
         validityTerm,
         createdBy,
         vehicleTypes,
-        paymentDetails
+        paymentDetails,
+        siteId
       );
 
       responseHandler.created(res, { customer }, 'Customer membership created successfully');

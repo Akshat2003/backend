@@ -14,15 +14,19 @@ router.get('/revenue',
   authorizeRoles('admin', 'operator'),
   async (req, res, next) => {
     try {
-      const { startDate, endDate } = req.query;
-      
+      const { startDate, endDate, siteId } = req.query;
+
       let query = { status: 'completed' };
-      
+
       if (startDate && endDate) {
         query.createdAt = {
           $gte: new Date(startDate),
           $lte: new Date(endDate)
         };
+      }
+
+      if (siteId) {
+        query.siteId = siteId;
       }
       
       const result = await MembershipPayment.aggregate([
@@ -61,24 +65,29 @@ router.get('/',
         startDate,
         endDate,
         membershipType,
-        customerId
+        customerId,
+        siteId
       } = req.query;
-      
+
       let query = {};
-      
+
       if (startDate && endDate) {
         query.createdAt = {
           $gte: new Date(startDate),
           $lte: new Date(endDate)
         };
       }
-      
+
       if (membershipType) {
         query.membershipType = membershipType;
       }
-      
+
       if (customerId) {
         query.customerId = customerId;
+      }
+
+      if (siteId) {
+        query.siteId = siteId;
       }
       
       const skip = (page - 1) * limit;
