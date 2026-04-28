@@ -91,6 +91,34 @@ class BookingController {
   }
 
   /**
+   * Get aggregated booking summary for dashboard cards.
+   * @route GET /api/bookings/summary
+   */
+  async getBookingSummary(req, res, next) {
+    try {
+      const {
+        siteId,
+        dateFrom,
+        dateTo,
+        paymentMethod,
+        includeDeleted
+      } = req.query;
+
+      const summary = await bookingService.getBookingSummary({
+        siteId,
+        dateFrom,
+        dateTo,
+        paymentMethod,
+        includeDeleted
+      });
+
+      responseHandler.success(res, summary, 'Booking summary retrieved successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Get booking by ID
    * @route GET /api/bookings/:id
    */

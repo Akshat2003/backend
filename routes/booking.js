@@ -43,6 +43,18 @@ router.get('/active', bookingController.getActiveBookings);
 router.get('/stats', bookingController.getBookingStats);
 
 /**
+ * @route GET /api/bookings/summary
+ * @desc Aggregated booking summary for dashboard cards (counts + collected revenue)
+ * @access Private
+ * @query {string} siteId - Site ID
+ * @query {string} dateFrom - Start date (optional)
+ * @query {string} dateTo - End date (optional)
+ * @query {string} paymentMethod - 'all' | 'cash' | 'upi' | 'membership' (optional)
+ * @query {string} includeDeleted - 'exclude' | 'only' | 'all' (default: exclude)
+ */
+router.get('/summary', bookingController.getBookingSummary);
+
+/**
  * @route POST /api/bookings/verify-otp
  * @desc Verify OTP and retrieve vehicle information
  * @access Private

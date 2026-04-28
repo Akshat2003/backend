@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 const Customer = require('../models/Customer');
 const Machine = require('../models/Machine');
@@ -379,6 +380,112 @@ class BookingService {
     } catch (error) {
       logger.error('Get bookings failed:', error.message);
       throw new AppError('Failed to retrieve bookings', 500);
+    }
+  }
+
+  /**
+   * Get aggregate summary for the analytics dashboard cards.
+   * Computes counts + collected revenue in a single MongoDB aggregation
+   * round-trip, so the dashboard never has to load every booking row to
+   * render the totals (the previous pagination approach OOM'd the box).
+   *
+   * @param {Object} filters - { siteId, dateFrom, dateTo, paymentMethod, includeDeleted }
+   *   includeDeleted: 'exclude' (default) | 'only' | 'all'
+   * @returns {Promise<Object>} totals
+   */
+  async getBookingSummary(filters = {}) {
+    try {
+      const {
+        siteId,
+        dateFrom,
+        dateTo,
+        paymentMethod,
+        includeDeleted = 'exclude'
+      } = filters;
+
+      const match = {};
+      if (siteId) match.siteId = mongoose.Types.ObjectId.isValid(siteId)
+        ? new mongoose.Types.ObjectId(siteId)
+        : siteId;
+
+      if (dateFrom || dateTo) {
+        match.startTime = {};
+        if (dateFrom) match.startTime.$gte = new Date(dateFrom);
+        if (dateTo) {
+          const end = new Date(dateTo);
+          end.setHours(23, 59, 59, 999);
+          match.startTime.$lte = end;
+        }
+      }
+
+      if (paymentMethod && paymentMethod !== 'all') {
+        match.$or = [
+          { 'payment.method': paymentMethod },
+          { paymentMethod: paymentMethod }
+        ];
+      }
+
+      if (includeDeleted === 'only') match.status = 'deleted';
+      else if (includeDeleted === 'exclude') match.status = { $ne: 'deleted' };
+
+      const [statusCounts, revenueAgg, membershipPaidAgg] = await Promise.all([
+        Booking.aggregate([
+          { $match: match },
+          { $group: { _id: '$status', count: { $sum: 1 } } }
+        ]),
+        Booking.aggregate([
+          {
+            $match: {
+              ...match,
+              $and: [
+                ...(match.$or ? [{ $or: match.$or }] : []),
+                { 'payment.method': { $ne: 'membership' } },
+                { paymentMethod: { $ne: 'membership' } }
+              ]
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: { $ifNull: ['$payment.amount', { $ifNull: ['$totalAmount', 0] }] } }
+            }
+          }
+        ]),
+        Booking.aggregate([
+          {
+            $match: {
+              ...match,
+              $or: [
+                { 'payment.method': 'membership' },
+                { paymentMethod: 'membership' }
+              ]
+            }
+          },
+          { $count: 'count' }
+        ])
+      ]);
+
+      const byStatus = statusCounts.reduce((acc, row) => {
+        acc[row._id || 'unknown'] = row.count;
+        return acc;
+      }, {});
+
+      const totalBookings = Object.values(byStatus).reduce((s, n) => s + n, 0);
+      const collectedRevenue = revenueAgg[0]?.total || 0;
+      const membershipPaidCount = membershipPaidAgg[0]?.count || 0;
+
+      return {
+        totalBookings,
+        activeBookings: byStatus.active || 0,
+        completedBookings: byStatus.completed || 0,
+        cancelledBookings: byStatus.cancelled || 0,
+        deletedBookings: byStatus.deleted || 0,
+        collectedRevenue,
+        membershipPaidCount
+      };
+    } catch (error) {
+      logger.error('Get booking summary failed:', error.message);
+      throw new AppError('Failed to retrieve booking summary', 500);
     }
   }
 
