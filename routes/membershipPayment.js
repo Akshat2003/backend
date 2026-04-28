@@ -25,8 +25,12 @@ router.get('/revenue',
         };
       }
 
+      // Memberships predating site-tagging have no siteId. To avoid the
+      // dashboard showing ₹0 for legacy data, include null/missing rows
+      // alongside ones matching the requested site. New memberships are
+      // properly scoped; old ones surface on every site until backfilled.
       if (siteId) {
-        query.siteId = siteId;
+        query.$or = [{ siteId: siteId }, { siteId: null }];
       }
       
       const result = await MembershipPayment.aggregate([
@@ -86,8 +90,9 @@ router.get('/',
         query.customerId = customerId;
       }
 
+      // Same site-scoping behavior as /revenue — see comment there.
       if (siteId) {
-        query.siteId = siteId;
+        query.$or = [{ siteId: siteId }, { siteId: null }];
       }
       
       const skip = (page - 1) * limit;
