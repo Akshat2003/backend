@@ -472,9 +472,11 @@ class BookingService {
 
       const get = (status, key) => byStatus[status]?.[key] || 0;
       const totalBookings = Object.values(byStatus).reduce((s, v) => s + v.count, 0);
-      // "Collected" excludes cancelled + deleted by design — those are
-      // reported as their own figures so the headline never includes them.
-      const collectedRevenue = get('active', 'revenue') + get('completed', 'revenue');
+      // "Collected" = completed bookings only. Active bookings haven't
+      // paid yet (vehicle still parked) and cancelled / deleted bookings
+      // are reported as their own figures so the headline never absorbs
+      // money that wasn't actually collected.
+      const collectedRevenue = get('completed', 'revenue');
 
       return {
         totalBookings,
