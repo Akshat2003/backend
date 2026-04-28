@@ -44,13 +44,14 @@ router.get('/stats', bookingController.getBookingStats);
 
 /**
  * @route GET /api/bookings/summary
- * @desc Aggregated booking summary for dashboard cards (counts + collected revenue)
+ * @desc Aggregated booking summary for dashboard cards. Returns counts
+ *       and revenue split by status (collected = active + completed
+ *       only; cancelled + deleted reported separately).
  * @access Private
  * @query {string} siteId - Site ID
  * @query {string} dateFrom - Start date (optional)
  * @query {string} dateTo - End date (optional)
  * @query {string} paymentMethod - 'all' | 'cash' | 'upi' | 'membership' (optional)
- * @query {string} includeDeleted - 'exclude' | 'only' | 'all' (default: exclude)
  */
 router.get('/summary', bookingController.getBookingSummary);
 

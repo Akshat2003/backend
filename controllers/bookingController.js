@@ -96,20 +96,13 @@ class BookingController {
    */
   async getBookingSummary(req, res, next) {
     try {
-      const {
-        siteId,
-        dateFrom,
-        dateTo,
-        paymentMethod,
-        includeDeleted
-      } = req.query;
+      const { siteId, dateFrom, dateTo, paymentMethod } = req.query;
 
       const summary = await bookingService.getBookingSummary({
         siteId,
         dateFrom,
         dateTo,
-        paymentMethod,
-        includeDeleted
+        paymentMethod
       });
 
       responseHandler.success(res, summary, 'Booking summary retrieved successfully');

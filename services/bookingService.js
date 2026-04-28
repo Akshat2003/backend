@@ -385,23 +385,23 @@ class BookingService {
 
   /**
    * Get aggregate summary for the analytics dashboard cards.
-   * Computes counts + collected revenue in a single MongoDB aggregation
-   * round-trip, so the dashboard never has to load every booking row to
-   * render the totals (the previous pagination approach OOM'd the box).
+   * Computes counts + revenue split by status in a single MongoDB
+   * aggregation round-trip, so the dashboard never has to load every
+   * booking row to render the totals.
    *
-   * @param {Object} filters - { siteId, dateFrom, dateTo, paymentMethod, includeDeleted }
-   *   includeDeleted: 'exclude' (default) | 'only' | 'all'
+   * Revenue rules:
+   *   - "collectedRevenue" includes only active + completed bookings.
+   *     Cancelled and deleted bookings are surfaced separately so the
+   *     headline figure never silently absorbs them.
+   *   - Membership-paid bookings always contribute 0 to revenue (the
+   *     member parked free).
+   *
+   * @param {Object} filters - { siteId, dateFrom, dateTo, paymentMethod }
    * @returns {Promise<Object>} totals
    */
   async getBookingSummary(filters = {}) {
     try {
-      const {
-        siteId,
-        dateFrom,
-        dateTo,
-        paymentMethod,
-        includeDeleted = 'exclude'
-      } = filters;
+      const { siteId, dateFrom, dateTo, paymentMethod } = filters;
 
       const match = {};
       if (siteId) match.siteId = mongoose.Types.ObjectId.isValid(siteId)
@@ -425,29 +425,29 @@ class BookingService {
         ];
       }
 
-      if (includeDeleted === 'only') match.status = 'deleted';
-      else if (includeDeleted === 'exclude') match.status = { $ne: 'deleted' };
-
-      const [statusCounts, revenueAgg, membershipPaidAgg] = await Promise.all([
+      const [statusBreakdown, membershipPaidAgg] = await Promise.all([
+        // Group everything by status — counts AND revenue per group.
+        // Membership-paid rows contribute 0 to revenue via the $cond.
         Booking.aggregate([
           { $match: match },
-          { $group: { _id: '$status', count: { $sum: 1 } } }
-        ]),
-        Booking.aggregate([
-          {
-            $match: {
-              ...match,
-              $and: [
-                ...(match.$or ? [{ $or: match.$or }] : []),
-                { 'payment.method': { $ne: 'membership' } },
-                { paymentMethod: { $ne: 'membership' } }
-              ]
-            }
-          },
           {
             $group: {
-              _id: null,
-              total: { $sum: { $ifNull: ['$payment.amount', { $ifNull: ['$totalAmount', 0] }] } }
+              _id: '$status',
+              count: { $sum: 1 },
+              revenue: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        { $eq: ['$payment.method', 'membership'] },
+                        { $eq: ['$paymentMethod', 'membership'] }
+                      ]
+                    },
+                    0,
+                    { $ifNull: ['$payment.amount', { $ifNull: ['$totalAmount', 0] }] }
+                  ]
+                }
+              }
             }
           }
         ]),
@@ -465,23 +465,29 @@ class BookingService {
         ])
       ]);
 
-      const byStatus = statusCounts.reduce((acc, row) => {
-        acc[row._id || 'unknown'] = row.count;
+      const byStatus = statusBreakdown.reduce((acc, row) => {
+        acc[row._id || 'unknown'] = { count: row.count, revenue: row.revenue || 0 };
         return acc;
       }, {});
 
-      const totalBookings = Object.values(byStatus).reduce((s, n) => s + n, 0);
-      const collectedRevenue = revenueAgg[0]?.total || 0;
-      const membershipPaidCount = membershipPaidAgg[0]?.count || 0;
+      const get = (status, key) => byStatus[status]?.[key] || 0;
+      const totalBookings = Object.values(byStatus).reduce((s, v) => s + v.count, 0);
+      // "Collected" excludes cancelled + deleted by design — those are
+      // reported as their own figures so the headline never includes them.
+      const collectedRevenue = get('active', 'revenue') + get('completed', 'revenue');
 
       return {
         totalBookings,
-        activeBookings: byStatus.active || 0,
-        completedBookings: byStatus.completed || 0,
-        cancelledBookings: byStatus.cancelled || 0,
-        deletedBookings: byStatus.deleted || 0,
+        activeBookings: get('active', 'count'),
+        completedBookings: get('completed', 'count'),
+        cancelledBookings: get('cancelled', 'count'),
+        deletedBookings: get('deleted', 'count'),
         collectedRevenue,
-        membershipPaidCount
+        activeRevenue: get('active', 'revenue'),
+        completedRevenue: get('completed', 'revenue'),
+        cancelledRevenue: get('cancelled', 'revenue'),
+        deletedRevenue: get('deleted', 'revenue'),
+        membershipPaidCount: membershipPaidAgg[0]?.count || 0
       };
     } catch (error) {
       logger.error('Get booking summary failed:', error.message);
