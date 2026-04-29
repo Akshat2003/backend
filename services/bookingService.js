@@ -51,10 +51,11 @@ class BookingService {
         // New customer - name is mandatory
         isNewCustomer = true;
         
-        // Extract first and last name from customerName
-        const nameParts = customerName.trim().split(' ');
+        // Extract first and last name from customerName. Single-word
+        // names are allowed — lastName stays empty in that case.
+        const nameParts = customerName.trim().split(/\s+/);
         const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ') || '-';
+        const lastName = nameParts.slice(1).join(' ');
 
         customer = new Customer({
           firstName,
@@ -84,10 +85,11 @@ class BookingService {
         const providedName = customerName.trim();
         
         if (providedName !== currentFullName) {
-          // Update customer name with operator-provided name
-          const nameParts = providedName.split(' ');
+          // Update customer name with operator-provided name.
+          // Single-word names → empty lastName (now allowed by schema).
+          const nameParts = providedName.split(/\s+/);
           const newFirstName = nameParts[0];
-          const newLastName = nameParts.slice(1).join(' ') || '-';
+          const newLastName = nameParts.slice(1).join(' ');
           
           customer.firstName = newFirstName;
           customer.lastName = newLastName;
@@ -283,8 +285,14 @@ class BookingService {
       return safeBooking;
 
     } catch (error) {
-      logger.error('Create booking failed:', error.message);
+      logger.error('Create booking failed:', error.message, { stack: error.stack });
       if (error instanceof AppError) {
+        throw error;
+      }
+      // Let Mongoose validation / cast / duplicate errors bubble up — the
+      // global errorHandler converts them to specific 4xx responses with the
+      // actual offending field, which is much more useful than a blanket 500.
+      if (error.name === 'ValidationError' || error.name === 'CastError' || error.code === 11000) {
         throw error;
       }
       throw new AppError('Failed to create booking', 500);

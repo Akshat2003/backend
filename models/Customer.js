@@ -6,14 +6,14 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: [true, 'First name is required'],
     trim: true,
-    minlength: [2, 'First name must be at least 2 characters'],
+    minlength: [1, 'First name is required'],
     maxlength: [30, 'First name must not exceed 30 characters']
   },
   lastName: {
     type: String,
-    required: [true, 'Last name is required'],
+    required: false,
     trim: true,
-    minlength: [2, 'Last name must be at least 2 characters'],
+    default: '',
     maxlength: [30, 'Last name must not exceed 30 characters']
   },
   phoneNumber: {
@@ -207,9 +207,10 @@ const customerSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-// Virtual for full name
+// Virtual for full name. lastName is optional, so trim trailing space
+// for single-name customers.
 customerSchema.virtual('fullName').get(function() {
-  return `${this.firstName} ${this.lastName}`;
+  return `${this.firstName} ${this.lastName || ''}`.trim();
 });
 
 // Virtual for membership status
