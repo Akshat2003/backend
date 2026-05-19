@@ -51,6 +51,7 @@ class BookingController {
         sortBy = 'startTime',
         sortOrder = 'desc',
         status,
+        statusNot,
         machineNumber,
         vehicleNumber,
         search,
@@ -61,6 +62,7 @@ class BookingController {
 
       const filters = {
         status,
+        statusNot,
         machineNumber,
         vehicleNumber,
         search,

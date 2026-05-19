@@ -308,7 +308,7 @@ class BookingService {
   async getBookings(filters = {}, pagination = {}) {
     try {
       const { page = 1, limit = 20, sortBy = 'startTime', sortOrder = 'desc' } = pagination;
-      const { status, machineNumber, vehicleNumber, search, dateFrom, dateTo, siteId } = filters;
+      const { status, statusNot, machineNumber, vehicleNumber, search, dateFrom, dateTo, siteId } = filters;
 
       // Build query
       const query = {};
@@ -319,6 +319,8 @@ class BookingService {
 
       if (status) {
         query.status = status;
+      } else if (statusNot) {
+        query.status = { $ne: statusNot };
       }
 
       if (machineNumber) {
