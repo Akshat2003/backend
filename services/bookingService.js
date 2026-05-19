@@ -308,7 +308,17 @@ class BookingService {
   async getBookings(filters = {}, pagination = {}) {
     try {
       const { page = 1, limit = 20, sortBy = 'startTime', sortOrder = 'desc' } = pagination;
-      const { status, statusNot, machineNumber, vehicleNumber, search, dateFrom, dateTo, siteId } = filters;
+      const {
+        status,
+        statusNot,
+        machineNumber,
+        vehicleNumber,
+        search,
+        dateFrom,
+        dateTo,
+        siteId,
+        paymentMethod
+      } = filters;
 
       // Build query
       const query = {};
@@ -341,14 +351,32 @@ class BookingService {
         }
       }
 
+      // Build any $or clauses (search + paymentMethod) and combine via
+      // $and so neither overwrites the other.
+      const orClauses = [];
       if (search) {
-        query.$or = [
-          { customerName: { $regex: search, $options: 'i' } },
-          { phoneNumber: { $regex: search, $options: 'i' } },
-          { vehicleNumber: { $regex: search, $options: 'i' } },
-          { bookingNumber: { $regex: search, $options: 'i' } },
-          { 'otp.code': { $regex: search, $options: 'i' } }
-        ];
+        orClauses.push({
+          $or: [
+            { customerName: { $regex: search, $options: 'i' } },
+            { phoneNumber: { $regex: search, $options: 'i' } },
+            { vehicleNumber: { $regex: search, $options: 'i' } },
+            { bookingNumber: { $regex: search, $options: 'i' } },
+            { 'otp.code': { $regex: search, $options: 'i' } }
+          ]
+        });
+      }
+      if (paymentMethod && paymentMethod !== 'all') {
+        orClauses.push({
+          $or: [
+            { 'payment.method': paymentMethod },
+            { paymentMethod: paymentMethod }
+          ]
+        });
+      }
+      if (orClauses.length === 1) {
+        Object.assign(query, orClauses[0]);
+      } else if (orClauses.length > 1) {
+        query.$and = orClauses;
       }
 
       // Calculate pagination

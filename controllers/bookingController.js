@@ -57,7 +57,8 @@ class BookingController {
         search,
         dateFrom,
         dateTo,
-        siteId
+        siteId,
+        paymentMethod
       } = req.query;
 
       const filters = {
@@ -68,7 +69,8 @@ class BookingController {
         search,
         dateFrom,
         dateTo,
-        siteId
+        siteId,
+        paymentMethod
       };
 
       // Remove undefined values
