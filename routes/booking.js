@@ -105,6 +105,8 @@ router.get('/', bookingController.getBookings);
  */
 router.get('/:id', bookingController.getBookingById);
 
+
+
 /**
  * @route POST /api/bookings
  * @desc Create new booking
@@ -157,12 +159,12 @@ router.post('/:id/complete',
 /**
  * @route DELETE /api/bookings/:id
  * @desc Delete booking
- * @access Private (Operators and above)
+ * @access Private (Admin only)
  * @param {string} id - Booking ID
  * @body {string} reason - Deletion reason (optional)
  */
-router.delete('/:id', 
-  authorizeRoles('operator', 'supervisor', 'admin'),
+router.delete('/:id',
+  authorizeRoles('admin'),
   bookingController.cancelBooking
 );
 
